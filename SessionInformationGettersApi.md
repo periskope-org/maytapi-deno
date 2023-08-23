@@ -29,6 +29,7 @@ const apiInstance = new .SessionInformationGettersApi(configuration);
 let body:.SessionInformationGettersApiPhoneIdContactCidGetRequest = {
   // string | ID of the phone registered to the product, assigned by the database automatically. Can be obtained by calling ***GET listPhones***.
   phoneId: "12",
+  conversationId: "120363147890986325@g.us"
 };
 
 apiInstance.phoneIdContactCidGet(body).then((data:any) => {
