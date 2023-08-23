@@ -483,8 +483,8 @@ export class PromiseSessionInformationGettersApi {
      * Returns the information of the number you specified in Whatsapp
      * @param phoneId ID of the phone registered to the product, assigned by the database automatically. Can be obtained by calling ***GET listPhones***.
      */
-    public phoneIdContactCidGet(phoneId: string, _options?: Configuration): Promise<PhoneIdContactCidGet200Response> {
-        const result = this.api.phoneIdContactCidGet(phoneId, _options);
+    public phoneIdContactCidGet(phoneId: string, conversationId:string, _options?: Configuration): Promise<PhoneIdContactCidGet200Response> {
+        const result = this.api.phoneIdContactCidGet(phoneId,conversationId, _options);
         return result.toPromise();
     }
 

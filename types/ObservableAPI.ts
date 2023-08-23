@@ -900,9 +900,10 @@ export class ObservableSessionInformationGettersApi {
     /**
      * Returns the information of the number you specified in Whatsapp
      * @param phoneId ID of the phone registered to the product, assigned by the database automatically. Can be obtained by calling ***GET listPhones***.
+     * @param conversationId Load conversations info
      */
-    public phoneIdContactCidGet(phoneId: string, _options?: Configuration): Observable<PhoneIdContactCidGet200Response> {
-        const requestContextPromise = this.requestFactory.phoneIdContactCidGet(phoneId, _options);
+    public phoneIdContactCidGet(phoneId: string,conversationId:string, _options?: Configuration): Observable<PhoneIdContactCidGet200Response> {
+        const requestContextPromise = this.requestFactory.phoneIdContactCidGet(phoneId,conversationId, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
