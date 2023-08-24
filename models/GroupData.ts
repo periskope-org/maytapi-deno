@@ -18,6 +18,7 @@ export class GroupData {
     'name'?: string;
     'participants'?: Array<string>;
     'admins'?: Array<string>;
+    'image'?: string;
     'config'?: GroupDataConfig;
 
     static readonly discriminator: string | undefined = undefined;
@@ -45,6 +46,12 @@ export class GroupData {
             "name": "admins",
             "baseName": "admins",
             "type": "Array<string>",
+            "format": ""
+        },
+        {
+            "name": "image",
+            "baseName": "image",
+            "type": "string",
             "format": ""
         },
         {

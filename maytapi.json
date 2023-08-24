@@ -1989,6 +1989,10 @@
               "example": "05301234567@c.us"
             }
           },
+          "image": {
+            "type": "string",
+            "example": "https://pps.whatsapp.net/v/t61.24694-24/367030748_1142408180071923_8259903821419370291_n.jpg?ccb=11-4&oh=01_AdT-7-5beqG1QY5HHWS06DVQ0P81ZjWh5Qe6dhIOIJ-kdQ&oe=64F46F23&_nc_cat=109"
+          },
           "config": {
             "type": "object",
             "properties": {
