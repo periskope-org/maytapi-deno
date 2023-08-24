@@ -26,8 +26,8 @@ import { MultiVcardMessage } from '../models/MultiVcardMessage.ts';
 import { PhoneConfig } from '../models/PhoneConfig.ts';
 import { PhoneIdCatalogGet200Response } from '../models/PhoneIdCatalogGet200Response.ts';
 import { PhoneIdConfigPostRequest } from '../models/PhoneIdConfigPostRequest.ts';
-import { PhoneIdContactCidGet200Response } from '../models/PhoneIdContactCidGet200Response.ts';
-import { PhoneIdContactCidGet200ResponseDataInner } from '../models/PhoneIdContactCidGet200ResponseDataInner.ts';
+import { PhoneIdContactConversationIdGet200Response } from '../models/PhoneIdContactConversationIdGet200Response.ts';
+import { PhoneIdContactConversationIdGet200ResponseDataInner } from '../models/PhoneIdContactConversationIdGet200ResponseDataInner.ts';
 import { PhoneIdContactsGet200Response } from '../models/PhoneIdContactsGet200Response.ts';
 import { PhoneIdContactsGet200ResponseDataInner } from '../models/PhoneIdContactsGet200ResponseDataInner.ts';
 import { PhoneIdCreateGroupPost200Response } from '../models/PhoneIdCreateGroupPost200Response.ts';
@@ -64,6 +64,7 @@ import { WebhookAckData } from '../models/WebhookAckData.ts';
 import { WebhookLiveBody } from '../models/WebhookLiveBody.ts';
 import { WebhookLiveBodyData } from '../models/WebhookLiveBodyData.ts';
 import { WebhookStatusBody } from '../models/WebhookStatusBody.ts';
+import { WebhookUrl } from '../models/WebhookUrl.ts';
 import { ObservableAccountInformationRetrievalApi } from './ObservableAPI.ts';
 
 import { AccountInformationRetrievalApiRequestFactory, AccountInformationRetrievalApiResponseProcessor} from "../apis/AccountInformationRetrievalApi.ts";
@@ -130,10 +131,10 @@ export class PromiseAccountInformationRetrievalApi {
 
     /**
      * Sets a webhook address for the selected product. Webhook is used for delivering the incoming messages and acknowledge notifications of sent messages to the user. The notification formats that reaches to the webhook are as follows:
-     * @param UNKNOWN_BASE_TYPE Webhook data is indicated.
+     * @param webhookUrl Webhook data is indicated.
      */
-    public setWebhookPost(UNKNOWN_BASE_TYPE: UNKNOWN_BASE_TYPE, _options?: Configuration): Promise<ProductData> {
-        const result = this.api.setWebhookPost(UNKNOWN_BASE_TYPE, _options);
+    public setWebhookPost(webhookUrl: WebhookUrl, _options?: Configuration): Promise<ProductData> {
+        const result = this.api.setWebhookPost(webhookUrl, _options);
         return result.toPromise();
     }
 
@@ -482,9 +483,10 @@ export class PromiseSessionInformationGettersApi {
     /**
      * Returns the information of the number you specified in Whatsapp
      * @param phoneId ID of the phone registered to the product, assigned by the database automatically. Can be obtained by calling ***GET listPhones***.
+     * @param conversationId Load conversations info.
      */
-    public phoneIdContactCidGet(phoneId: string, conversationId:string, _options?: Configuration): Promise<PhoneIdContactCidGet200Response> {
-        const result = this.api.phoneIdContactCidGet(phoneId,conversationId, _options);
+    public phoneIdContactConversationIdGet(phoneId: string, conversationId: string, _options?: Configuration): Promise<PhoneIdContactConversationIdGet200Response> {
+        const result = this.api.phoneIdContactConversationIdGet(phoneId, conversationId, _options);
         return result.toPromise();
     }
 

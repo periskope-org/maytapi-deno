@@ -26,8 +26,8 @@ import { MultiVcardMessage } from '../models/MultiVcardMessage.ts';
 import { PhoneConfig } from '../models/PhoneConfig.ts';
 import { PhoneIdCatalogGet200Response } from '../models/PhoneIdCatalogGet200Response.ts';
 import { PhoneIdConfigPostRequest } from '../models/PhoneIdConfigPostRequest.ts';
-import { PhoneIdContactCidGet200Response } from '../models/PhoneIdContactCidGet200Response.ts';
-import { PhoneIdContactCidGet200ResponseDataInner } from '../models/PhoneIdContactCidGet200ResponseDataInner.ts';
+import { PhoneIdContactConversationIdGet200Response } from '../models/PhoneIdContactConversationIdGet200Response.ts';
+import { PhoneIdContactConversationIdGet200ResponseDataInner } from '../models/PhoneIdContactConversationIdGet200ResponseDataInner.ts';
 import { PhoneIdContactsGet200Response } from '../models/PhoneIdContactsGet200Response.ts';
 import { PhoneIdContactsGet200ResponseDataInner } from '../models/PhoneIdContactsGet200ResponseDataInner.ts';
 import { PhoneIdCreateGroupPost200Response } from '../models/PhoneIdCreateGroupPost200Response.ts';
@@ -64,6 +64,7 @@ import { WebhookAckData } from '../models/WebhookAckData.ts';
 import { WebhookLiveBody } from '../models/WebhookLiveBody.ts';
 import { WebhookLiveBodyData } from '../models/WebhookLiveBodyData.ts';
 import { WebhookStatusBody } from '../models/WebhookStatusBody.ts';
+import { WebhookUrl } from '../models/WebhookUrl.ts';
 
 import { ObservableAccountInformationRetrievalApi } from "./ObservableAPI.ts";
 import { AccountInformationRetrievalApiRequestFactory, AccountInformationRetrievalApiResponseProcessor} from "../apis/AccountInformationRetrievalApi.ts";
@@ -101,10 +102,10 @@ export interface AccountInformationRetrievalApiSetAckPreferencePostRequest {
 export interface AccountInformationRetrievalApiSetWebhookPostRequest {
     /**
      * Webhook data is indicated.
-     * @type UNKNOWN_BASE_TYPE
+     * @type WebhookUrl
      * @memberof AccountInformationRetrievalApisetWebhookPost
      */
-    UNKNOWN_BASE_TYPE: UNKNOWN_BASE_TYPE
+    webhookUrl: WebhookUrl
 }
 
 export class ObjectAccountInformationRetrievalApi {
@@ -167,7 +168,7 @@ export class ObjectAccountInformationRetrievalApi {
      * @param param the request object
      */
     public setWebhookPost(param: AccountInformationRetrievalApiSetWebhookPostRequest, options?: Configuration): Promise<ProductData> {
-        return this.api.setWebhookPost(param.UNKNOWN_BASE_TYPE,  options).toPromise();
+        return this.api.setWebhookPost(param.webhookUrl,  options).toPromise();
     }
 
 }
@@ -732,13 +733,19 @@ export class ObjectSessionControllingOperationsApi {
 import { ObservableSessionInformationGettersApi } from "./ObservableAPI.ts";
 import { SessionInformationGettersApiRequestFactory, SessionInformationGettersApiResponseProcessor} from "../apis/SessionInformationGettersApi.ts";
 
-export interface SessionInformationGettersApiPhoneIdContactCidGetRequest {
+export interface SessionInformationGettersApiPhoneIdContactConversationIdGetRequest {
     /**
      * ID of the phone registered to the product, assigned by the database automatically. Can be obtained by calling ***GET listPhones***.
      * @type string
-     * @memberof SessionInformationGettersApiphoneIdContactCidGet
+     * @memberof SessionInformationGettersApiphoneIdContactConversationIdGet
      */
     phoneId: string
+    /**
+     * Load conversations info.
+     * @type string
+     * @memberof SessionInformationGettersApiphoneIdContactConversationIdGet
+     */
+    conversationId: string
 }
 
 export interface SessionInformationGettersApiPhoneIdContactsGetRequest {
@@ -788,8 +795,8 @@ export class ObjectSessionInformationGettersApi {
      * Returns the information of the number you specified in Whatsapp
      * @param param the request object
      */
-    public phoneIdContactCidGet(param: SessionInformationGettersApiPhoneIdContactCidGetRequest, options?: Configuration): Promise<PhoneIdContactCidGet200Response> {
-        return this.api.phoneIdContactCidGet(param.phoneId,  options).toPromise();
+    public phoneIdContactConversationIdGet(param: SessionInformationGettersApiPhoneIdContactConversationIdGetRequest, options?: Configuration): Promise<PhoneIdContactConversationIdGet200Response> {
+        return this.api.phoneIdContactConversationIdGet(param.phoneId, param.conversationId,  options).toPromise();
     }
 
     /**

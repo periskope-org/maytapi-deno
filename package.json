@@ -4,5 +4,8 @@
   "description": "",
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.7.0"
+  },
+  "scripts": {
+    "generate": "npx @openapitools/openapi-generator-cli generate -i ./maytapi.json -g typescript --additional-properties=platform=deno -o ./"
   }
 }

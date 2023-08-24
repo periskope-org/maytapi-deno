@@ -10,34 +10,50 @@
  * Do not edit the class manually.
  */
 
-import { WebhookUrl } from '../models/WebhookUrl.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class PhoneIdConfigPostRequest {
-    'webhook'?: WebhookUrl;
-    'ackDelivery'?: boolean;
+export class PhoneIdContactConversationIdGet200ResponseDataInner {
+    'id'?: string;
+    'name'?: string;
+    'type'?: PhoneIdContactConversationIdGet200ResponseDataInnerTypeEnum;
+    'image'?: string;
 
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "webhook",
-            "baseName": "webhook",
-            "type": "WebhookUrl",
+            "name": "id",
+            "baseName": "id",
+            "type": "string",
             "format": ""
         },
         {
-            "name": "ackDelivery",
-            "baseName": "ack_delivery",
-            "type": "boolean",
+            "name": "name",
+            "baseName": "name",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "type",
+            "baseName": "type",
+            "type": "PhoneIdContactConversationIdGet200ResponseDataInnerTypeEnum",
+            "format": ""
+        },
+        {
+            "name": "image",
+            "baseName": "image",
+            "type": "string",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return PhoneIdConfigPostRequest.attributeTypeMap;
+        return PhoneIdContactConversationIdGet200ResponseDataInner.attributeTypeMap;
     }
 
     public constructor() {
     }
 }
+
+
+export type PhoneIdContactConversationIdGet200ResponseDataInnerTypeEnum = "chat" | "group" | "broadcast" ;
 

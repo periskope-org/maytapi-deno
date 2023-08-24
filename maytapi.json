@@ -1,2105 +1,2223 @@
 {
-	"openapi": "3.0.1",
-	"info": {
-		"title": "Maytapi - WhatsApp API Documentation",
-		"description": "This API deals with a chatting platform based on WhatsApp. The user can send and receive text and media messages through WhatsApp in private chats with the endpoints that are created for the user. Moreover, the current status and the screen of the session can be retrieved using these endpoints. With the account specific endpoints, user can get the product or registered phones information, edit and remove these.\n\n**Example Projects:**\n\n[Maytapi WhatsApp Api NodeJS Example](https://github.com/Maytapi/whatsapp-api-nodejs-example)\n\n[Maytapi WhatsApp Api NodeJS Dialogflow Example](https://github.com/Maytapi/whatsapp-api-nodejs-dialogflow-example)\n\n[Maytapi WhatsApp Api Python Example](https://github.com/Maytapi/whatsapp-api-python-example)\n\n[Maytapi WhatsApp Api Python Dialogflow Example](https://github.com/Maytapi/whatsapp-api-python-dialogflow-example)\n\nYou need to send **'x-maytapi-key':'YOUR_TOKEN'** header with every request.\n\nYou can find your **product_id** and **token** at [https://console.maytapi.com/settings/token](https://console.maytapi.com/settings/token) \n\nYou can find **message examples** in /sendMessage documentation section [Screenshot](https://maytapi.com/images/sendmessage.png) \n| Feature | Status| Description |\n|:-------------------------|:-----------:|--------------------------------|\n| Receive message | ✅ | You need to set your webhook with **/setWebhook** endpoint. |\n| Receive media | ✅ | Image, Video, Docs/File, Audio, Location, vCard supported. |\n| Send Text Message | ✅ | Send message works with queue. Message id and success response states that message added to sending queue.<br />If your messages isn't sended check your instance status for connection/login problems.<br />You can also check **/logs** endpoint or [Developer Logs Page](https://console.maytapi.com/developers/logs) for error messages if you are using wrong format you can find the error in here.<br /> You can also check your queue status in [Developer Webhook Page](https://console.maytapi.com/developers/webhook) or with **/{phone_id}/queue** endpoint./  |\n| Send Media | ✅ | Image, Audio(ogg-file in opus codec), Video, Docs(pdf,docx,etc.) supported. |\n| Send vCard | ✅ | You can find the example in /sendMessage → Examples → vCard Message |\n| Send Contact | ✅ | You can find the example in /sendMessage → Examples → Contact Message |\n| Send Location | ✅ |You can find the example in /sendMessage → Examples → Location Message  |\n| Send Procuct | ✅ |You can find the example in /sendMessage → Examples → Product Message (**BETA**)<br />You need to create products from WhatsApp Business Phone App.<br />You can find Product Ids from new **/catalog** endpoint. |\n| Forward Messages | ✅ | You can find the example in /sendMessage → Examples → Forward Message |\n| Reply to Messages | ✅ | You can find the example in /sendMessage → Examples → Reply Message |\n| Delete Messages | ✅ | You can find the example in /sendMessage → Examples → Delete Message |\n| Reaction Message |✅| You can find the example in /sendMessage → Examples → Reaction Message |\n| Edit Message |✅| You can find the example in /sendMessage → Examples → Edit Message |\n|Create Groups | ✅ | You can find the example in **/{phone_id}/createGroup** |\n| Get groups | ✅ | You can find the example in **/{phone_id}/getGroups** |\n Mention Message for Groups | ✅ | You can find the example in /sendMessage → Examples → Group Mention Message |\n| Leave Group | ✅ | You can find the example in **/leaveGroup** |\n| New Spam Filter | ✅ | We added a new spam/dupe filter for recurring messages in the same conversation. In a conversation, the last 3 unique messages can't be sent more than 3 times.<br />This feature is to ignore spam messages sent to the same user. Sending same message to different users is not filtered.<br />You can also ignore the filter by adding `\"skip_filter\":true` to messages. You can find an example for this in /sendMessage examples section. |\n| Listen to Read Receipts | ✅ | You need to enable this with **/setAckPreference** endpoint. |\n| Webhook examples. | ✅ | You can find webhook examples in **Callbacks** tab of **/setWebhook** endpoint definition. |",
-		"termsOfService": "https://maytapi.com/legal/terms",
-		"contact": {
-			"name": "Maytapi Support",
-			"email": "info@maytapi.com"
-		},
-		"version": "1.9.1"
-	},
-	"tags": [
-		{
-			"name": "Account Information Retrieval"
-		},
-		{
-			"name": "Session Information Getters"
-		},
-		{
-			"name": "Message Sending Operations"
-		},
-		{
-			"name": "Business Catalog (Beta)"
-		},
-		{
-			"name": "Group Chat Operations"
-		},
-		{
-			"name": "Queue Operations"
-		},
-		{
-			"name": "Session Controlling Operations"
-		}
-	],
-	"servers": [
-		{
-			"url": "https://api.maytapi.com/api/{product_id}",
-			"variables": {
-				"product_id": {
-					"description": "You can find your token at https://console.maytapi.com/settings/token",
-					"default": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-				}
-			}
-		}
-	],
-	"paths": {
-		"/product": {
-			"get": {
-				"tags": ["Account Information Retrieval"],
-				"description": "Returns the information of the product with the given product id.",
-				"responses": {
-					"200": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/productData"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/listPhones": {
-			"get": {
-				"tags": ["Account Information Retrieval"],
-				"description": "Returns information of all the phones registered to the given product.",
-				"responses": {
-					"200": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/phoneList"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/queues": {
-			"get": {
-				"tags": ["Account Information Retrieval"],
-				"description": "Returns information of all the phones registered to the given product with queue information.",
-				"responses": {
-					"200": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"success": { "type": "boolean", "example": "true" },
-										"queues": {
-											"type": "array",
-											"items": {
-												"$ref": "#/components/schemas/queue-phone"
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/setWebhook": {
-			"post": {
-				"tags": ["Account Information Retrieval"],
-				"description": "Sets a webhook address for the selected product. Webhook is used for delivering the incoming messages and acknowledge notifications of sent messages to the user. The notification formats that reaches to the webhook are as follows:",
-				"requestBody": {
-					"description": "Webhook data is indicated.",
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"webhook": { "$ref": "#/components/schemas/webhook-url" }
-								}
-							}
-						}
-					},
-					"required": true
-				},
-				"callbacks": {
-					"Events": {
-						"Incoming Messages": {
-							"post": {
-								"description": "All the incoming messages from the active session are delivered here with the format given in the responses part.",
-								"requestBody": {
-									"required": true,
-									"content": {
-										"application/json": {
-											"schema": {
-												"$ref": "#/components/schemas/incomingMessageType"
-											}
-										}
-									}
-								},
-								"responses": {
-									"200": {
-										"description": "Your server returns this code if it accepts the callback"
-									}
-								}
-							}
-						},
-						"Acknowledge Notifications": {
-							"post": {
-								"description": "All the acknowledge notifications of the sent messages from the active session are delivered here with the format given in the responses part.\n\n| ackCode | ackType | Description |\n|-|---------|------------------------------------------|\n| 1 | delivered | Delivered to whatsapp servers. |\n| 2 | reached | Message reached to user. |\n| 3 | seen | Message seen by user. |\n| 4 | played | Message played by user. (sound messages) |\n| 5 | deleted | Message deleted by user. |",
-								"requestBody": {
-									"description": "",
-									"content": {
-										"application/json": {
-											"schema": {
-												"$ref": "#/components/schemas/webhook-ack-body"
-											}
-										}
-									}
-								},
-								"responses": {
-									"200": {
-										"description": "Your server returns this code if it accepts the callback"
-									}
-								}
-							}
-						},
-						"Status Change Notifications": {
-							"post": {
-								"description": "All the status change are delivered to your webhook with the format given in the request part.\n\nStatus code meanings:\n- active: Working phone state.\n- qr-code: On qr-code login screen state.\n- idle: When a phone stays at qr-code for 3 min. it turns to idle state.\n- phone-error: Phone is not connected or battery low like whatsapp warning states.",
-								"requestBody": {
-									"description": "",
-									"content": {
-										"application/json": {
-											"schema": {
-												"$ref": "#/components/schemas/webhook-status-body"
-											}
-										}
-									}
-								},
-								"responses": {
-									"200": {
-										"description": "Your server returns this code if it accepts the callback"
-									}
-								}
-							}
-						},
-						"Live Chat Notifications": {
-							"post": {
-								"description": "These events only occur when using api and livechat together.",
-								"requestBody": {
-									"description": "",
-									"content": {
-										"application/json": {
-											"schema": {
-												"$ref": "#/components/schemas/webhook-live-body"
-											}
-										}
-									}
-								},
-								"responses": {
-									"200": {
-										"description": "Your server returns this code if it accepts the callback"
-									}
-								}
-							}
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "Returns the information of updated selected product.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/productData"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/addPhone": {
-			"post": {
-				"tags": ["Account Information Retrieval"],
-				"description": "Adds a new phone to the product.",
-				"requestBody": {
-					"description": "If a number is wanted to be specified by adding the phone, that number is given. Otherwise, the number will be updated in database, when qr-screen is passed later.",
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/addPhoneBody"
-							}
-						}
-					},
-					"required": false
-				},
-				"responses": {
-					"200": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/phoneObjWithPid"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/setAckPreference": {
-			"post": {
-				"tags": ["Account Information Retrieval"],
-				"description": "Sets the option for getting the acknowledge messages from the webhook to true or false.",
-				"requestBody": {
-					"description": "Acknowledge messages taking preference is indicated.",
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/ackSet"
-							}
-						}
-					},
-					"required": true
-				},
-				"responses": {
-					"200": {
-						"description": "Returns the information of updated selected product.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/productData"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Maytapi - WhatsApp API Documentation",
+    "description": "This API deals with a chatting platform based on WhatsApp. The user can send and receive text and media messages through WhatsApp in private chats with the endpoints that are created for the user. Moreover, the current status and the screen of the session can be retrieved using these endpoints. With the account specific endpoints, user can get the product or registered phones information, edit and remove these.\n\n**Example Projects:**\n\n[Maytapi WhatsApp Api NodeJS Example](https://github.com/Maytapi/whatsapp-api-nodejs-example)\n\n[Maytapi WhatsApp Api NodeJS Dialogflow Example](https://github.com/Maytapi/whatsapp-api-nodejs-dialogflow-example)\n\n[Maytapi WhatsApp Api Python Example](https://github.com/Maytapi/whatsapp-api-python-example)\n\n[Maytapi WhatsApp Api Python Dialogflow Example](https://github.com/Maytapi/whatsapp-api-python-dialogflow-example)\n\nYou need to send **'x-maytapi-key':'YOUR_TOKEN'** header with every request.\n\nYou can find your **product_id** and **token** at [https://console.maytapi.com/settings/token](https://console.maytapi.com/settings/token) \n\nYou can find **message examples** in /sendMessage documentation section [Screenshot](https://maytapi.com/images/sendmessage.png) \n| Feature | Status| Description |\n|:-------------------------|:-----------:|--------------------------------|\n| Receive message | ✅ | You need to set your webhook with **/setWebhook** endpoint. |\n| Receive media | ✅ | Image, Video, Docs/File, Audio, Location, vCard supported. |\n| Send Text Message | ✅ | Send message works with queue. Message id and success response states that message added to sending queue.<br />If your messages isn't sended check your instance status for connection/login problems.<br />You can also check **/logs** endpoint or [Developer Logs Page](https://console.maytapi.com/developers/logs) for error messages if you are using wrong format you can find the error in here.<br /> You can also check your queue status in [Developer Webhook Page](https://console.maytapi.com/developers/webhook) or with **/{phone_id}/queue** endpoint./  |\n| Send Media | ✅ | Image, Audio(ogg-file in opus codec), Video, Docs(pdf,docx,etc.) supported. |\n| Send vCard | ✅ | You can find the example in /sendMessage → Examples → vCard Message |\n| Send Contact | ✅ | You can find the example in /sendMessage → Examples → Contact Message |\n| Send Location | ✅ |You can find the example in /sendMessage → Examples → Location Message  |\n| Send Procuct | ✅ |You can find the example in /sendMessage → Examples → Product Message (**BETA**)<br />You need to create products from WhatsApp Business Phone App.<br />You can find Product Ids from new **/catalog** endpoint. |\n| Forward Messages | ✅ | You can find the example in /sendMessage → Examples → Forward Message |\n| Reply to Messages | ✅ | You can find the example in /sendMessage → Examples → Reply Message |\n| Delete Messages | ✅ | You can find the example in /sendMessage → Examples → Delete Message |\n| Reaction Message |✅| You can find the example in /sendMessage → Examples → Reaction Message |\n| Edit Message |✅| You can find the example in /sendMessage → Examples → Edit Message |\n|Create Groups | ✅ | You can find the example in **/{phone_id}/createGroup** |\n| Get groups | ✅ | You can find the example in **/{phone_id}/getGroups** |\n Mention Message for Groups | ✅ | You can find the example in /sendMessage → Examples → Group Mention Message |\n| Leave Group | ✅ | You can find the example in **/leaveGroup** |\n| New Spam Filter | ✅ | We added a new spam/dupe filter for recurring messages in the same conversation. In a conversation, the last 3 unique messages can't be sent more than 3 times.<br />This feature is to ignore spam messages sent to the same user. Sending same message to different users is not filtered.<br />You can also ignore the filter by adding `\"skip_filter\":true` to messages. You can find an example for this in /sendMessage examples section. |\n| Listen to Read Receipts | ✅ | You need to enable this with **/setAckPreference** endpoint. |\n| Webhook examples. | ✅ | You can find webhook examples in **Callbacks** tab of **/setWebhook** endpoint definition. |",
+    "termsOfService": "https://maytapi.com/legal/terms",
+    "contact": {
+      "name": "Maytapi Support",
+      "email": "info@maytapi.com"
+    },
+    "version": "1.9.1"
+  },
+  "tags": [
+    {
+      "name": "Account Information Retrieval"
+    },
+    {
+      "name": "Session Information Getters"
+    },
+    {
+      "name": "Message Sending Operations"
+    },
+    {
+      "name": "Business Catalog (Beta)"
+    },
+    {
+      "name": "Group Chat Operations"
+    },
+    {
+      "name": "Queue Operations"
+    },
+    {
+      "name": "Session Controlling Operations"
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://api.maytapi.com/api/{product_id}",
+      "variables": {
+        "product_id": {
+          "description": "You can find your token at https://console.maytapi.com/settings/token",
+          "default": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/product": {
+      "get": {
+        "tags": ["Account Information Retrieval"],
+        "description": "Returns the information of the product with the given product id.",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/productData"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/listPhones": {
+      "get": {
+        "tags": ["Account Information Retrieval"],
+        "description": "Returns information of all the phones registered to the given product.",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/phoneList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/queues": {
+      "get": {
+        "tags": ["Account Information Retrieval"],
+        "description": "Returns information of all the phones registered to the given product with queue information.",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": "true" },
+                    "queues": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/queue-phone"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/setWebhook": {
+      "post": {
+        "tags": ["Account Information Retrieval"],
+        "description": "Sets a webhook address for the selected product. Webhook is used for delivering the incoming messages and acknowledge notifications of sent messages to the user. The notification formats that reaches to the webhook are as follows:",
+        "requestBody": {
+          "description": "Webhook data is indicated.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/webhook-url"
+              }
+            }
+          },
+          "required": true
+        },
+        "callbacks": {
+          "Events": {
+            "Incoming Messages": {
+              "post": {
+                "description": "All the incoming messages from the active session are delivered here with the format given in the responses part.",
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/incomingMessageType"
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "Your server returns this code if it accepts the callback"
+                  }
+                }
+              }
+            },
+            "Acknowledge Notifications": {
+              "post": {
+                "description": "All the acknowledge notifications of the sent messages from the active session are delivered here with the format given in the responses part.\n\n| ackCode | ackType | Description |\n|-|---------|------------------------------------------|\n| 1 | delivered | Delivered to whatsapp servers. |\n| 2 | reached | Message reached to user. |\n| 3 | seen | Message seen by user. |\n| 4 | played | Message played by user. (sound messages) |\n| 5 | deleted | Message deleted by user. |",
+                "requestBody": {
+                  "description": "",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/webhook-ack-body"
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "Your server returns this code if it accepts the callback"
+                  }
+                }
+              }
+            },
+            "Status Change Notifications": {
+              "post": {
+                "description": "All the status change are delivered to your webhook with the format given in the request part.\n\nStatus code meanings:\n- active: Working phone state.\n- qr-code: On qr-code login screen state.\n- idle: When a phone stays at qr-code for 3 min. it turns to idle state.\n- phone-error: Phone is not connected or battery low like whatsapp warning states.",
+                "requestBody": {
+                  "description": "",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/webhook-status-body"
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "Your server returns this code if it accepts the callback"
+                  }
+                }
+              }
+            },
+            "Live Chat Notifications": {
+              "post": {
+                "description": "These events only occur when using api and livechat together.",
+                "requestBody": {
+                  "description": "",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/webhook-live-body"
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "Your server returns this code if it accepts the callback"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the information of updated selected product.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/productData"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/addPhone": {
+      "post": {
+        "tags": ["Account Information Retrieval"],
+        "description": "Adds a new phone to the product.",
+        "requestBody": {
+          "description": "If a number is wanted to be specified by adding the phone, that number is given. Otherwise, the number will be updated in database, when qr-screen is passed later.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/addPhoneBody"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/phoneObjWithPid"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/setAckPreference": {
+      "post": {
+        "tags": ["Account Information Retrieval"],
+        "description": "Sets the option for getting the acknowledge messages from the webhook to true or false.",
+        "requestBody": {
+          "description": "Acknowledge messages taking preference is indicated.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ackSet"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the information of updated selected product.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/productData"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
 
-		"/logs": {
-			"get": {
-				"tags": ["Account Information Retrieval"],
-				"description": "Returns logs of all the phones.",
-				"responses": {
-					"200": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"success": { "type": "boolean", "example": true },
-										"data": {
-											"type": "object",
-											"properties": {
-												"count": {
-													"type": "string",
-													"example": "1"
-												},
-												"list": { "$ref": "#/components/schemas/logsList" }
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/{phone_id}/screen": {
-			"get": {
-				"tags": ["Session Information Getters"],
-				"description": "Returns the status of the current session.",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"responses": {
-					"200": {
-						"description": "Returns the screenshot of the screen in the current session.",
-						"content": {}
-					}
-				}
-			}
-		},
-		"/{phone_id}/status": {
-			"get": {
-				"tags": ["Session Information Getters"],
-				"description": "Returns the screenshot of the screen in the current session.",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"responses": {
-					"200": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Status"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/{phone_id}/queue": {
-			"get": {
-				"tags": ["Queue Operations"],
-				"description": "Returns the queue info of the phone.",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"responses": {
-					"200": {
-						"description": "Returns the queue info of the phone.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"success": { "type": "boolean", "example": true },
-										"stats": {
-											"type": "object",
-											"properties": {
-												"sending": {
-													"type": "integer",
-													"example": 0
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/{phone_id}/purgeQueue": {
-			"get": {
-				"tags": ["Queue Operations"],
-				"description": "Clears phone's send message queue.",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"responses": {
-					"200": {
-						"description": "Clears phone's send message queue.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"success": { "type": "boolean", "example": true }
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/{phone_id}/qrCode": {
-			"get": {
-				"tags": ["Session Information Getters"],
-				"description": "Returns the qrCode in the current session if there is one.",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"responses": {
-					"200": {
-						"description": "Returns the screenshot of the qr code in the current session.",
-						"content": {}
-					}
-				}
-			}
-		},
-		"/{phone_id}/contacts": {
-			"get": {
-				"tags": ["Session Information Getters"],
-				"description": "Returns the contacts in the current whatsapp instance.",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"responses": {
-					"200": {
-						"description": "Returns the contacts in the current whatsapp instance.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"success": { "type": "boolean", "example": "true" },
-										"data": {
-											"type": "array",
-											"items": {
-												"type": "object",
-												"properties": {
-													"id": { "type": "string", "example": "05301234567@c.us" },
-													"name": {
-														"type": "string",
-														"example": "Conversation Name"
-													},
-													"type": { "type": "string", "example": "chat", "enum": ["chat", "group", "broadcast"] }
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/{phone_id}/contact/:cid": {
-			"get": {
-				"tags": ["Session Information Getters"],
-				"description": "Returns the information of the number you specified in Whatsapp",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"responses": {
-					"200": {
-						"description": "Returns the information of the number you specified in Whatsapp",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"success": { "type": "boolean", "example": "true" },
-										"data": {
-											"type": "array",
-											"items": {
-												"type": "object",
-												"properties": {
-													"id": { "type": "string", "example": "05301234567@c.us" },
-													"name": {
-														"type": "string",
-														"example": "Conversation Name"
-													},
-													"type": { "type": "string", "example": "chat", "enum": ["chat", "group", "broadcast"] },
-													"image":{"type":"string","example":{"url":"http://placehold.it/180"}}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/{phone_id}/redeploy": {
-			"get": {
-				"tags": ["Session Controlling Operations"],
-				"description": "Redeploys docker instance of your phone. If your phone having any unexpected problems you can use this endpoint to reboot the instance.",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"responses": {
-					"200": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"success": {
-											"type": "boolean",
-											"example": true
-										},
-										"message": {
-											"type": "string",
-											"example": "Phone 12 is restarted."
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/{phone_id}/factoryreset": {
-			"get": {
-				"tags": ["Session Controlling Operations"],
-				"description": "Factory resets everything about phone instance to a new created instance state. This is a replacement for delete/create a new phone. \n\nYour phone instances can't be deleted anymore. This is implemented beacuse some of our customers were loosing their phone instance when their subscription(or trial) suspended. With the new system your phones would only set to disabled state and after you fix your subscription you can re-enable your phones either making a request(/screen etc.) to instance or from our control panel.",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"responses": {
-					"200": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/justSuccess"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/{phone_id}/logout": {
-			"get": {
-				"tags": ["Session Controlling Operations"],
-				"description": "Logouts the number from the current session and converts the screen to qr-code screen.",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"responses": {
-					"200": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/justSuccess"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/{phone_id}/config": {
-			"get": {
-				"tags": ["Session Controlling Operations"],
-				"description": "Get phone specifig config for webhook and ack_delivery. If empty product webhook config would be used for delivery.",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"responses": {
-					"200": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/phone_config"
-								}
-							}
-						}
-					}
-				}
-			},
-			"post": {
-				"tags": ["Session Controlling Operations"],
-				"description": "Set phone specifig config for webhook and ack_delivery. If empty product webhook config would be used for delivery.\n\nWith this api you can define webhook for individual phones.",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"requestBody": {
-					"description": "With this api you can define webhook for individual phones.",
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"webhook": { "$ref": "#/components/schemas/webhook-url" },
-									"ack_delivery": {
-										"type": "boolean",
-										"default": "false"
-									}
-								}
-							}
-						}
-					},
-					"required": true
-				},
-				"responses": {
-					"200": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/phone_config"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/{phone_id}/delete": {
-			"get": {
-				"tags": ["Session Controlling Operations"],
-				"deprecated": true,
-				"summary": "DEPRECATED please use /factoryreset",
-				"description": "**[DEPRECATED please use /factoryreset]** Deletes the phone and closes the session of that number.",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"responses": {
-					"200": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/deleteSuccess"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/{phone_id}/restart": {
-			"get": {
-				"tags": ["Session Controlling Operations"],
-				"deprecated": true,
-				"summary": "DEPRECATED please use /redeploy",
-				"description": "**[DEPRECATED please use /redeploy]** Restarts the session by refreshing the page.",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"responses": {
-					"200": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/justSuccess"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/{phone_id}/backup": {
-			"get": {
-				"tags": ["Session Controlling Operations"],
-				"deprecated": true,
-				"summary": "DEPRECATED Multi-Device doesn't support this feature.",
-				"description": "**[DEPRECATED Multi-Device doesn't support this feature]** Backups the material needed for opening the same chat screen for the current phone number. This call is useful when the session and also the status of the session is active. The response information can be used to open the chat screen with the POST restore call. If logout is called after getting the backup information, the data obtained from there will not be valid anymore.",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"responses": {
-					"200": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/backupSuccess"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/{phone_id}/restore": {
-			"post": {
-				"tags": ["Session Controlling Operations"],
-				"deprecated": true,
-				"summary": "DEPRECATED Multi-Device doesn't support this feature.",
-				"description": "**[DEPRECATED Multi-Device doesn't support this feature]** Reloads the current session based on the reload data (can be obtained from ***POST backup***).",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"requestBody": {
-					"description": "All the session restoring data needed.",
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/backupData"
-							}
-						}
-					},
-					"required": true
-				},
-				"responses": {
-					"200": {
-						"description": "",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/justSuccess"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/{phone_id}/sendMessage": {
-			"post": {
-				"tags": ["Message Sending Operations"],
-				"description": "Used for sending message to a chat. A text, image, video, sound and document can be sent.\n\n**This endpoint adds messages to your phone's sending queue. If your messages not delivering to phones please check your instance logs, queue endpoint or connection (/screen).**\n\n**Curl example:** (You need to change product_id, phone_id and token[x-maytapi-key] with your product's values...)\n```bash\ncurl -X POST \\\n'https://api.maytapi.com/api/dc01968f-####-####-####-7cfcf51aa423/12/sendMessage' \\\n  -H 'Content-Type: application/json' \\\n  -H 'x-maytapi-key: b267697c-####-####-####-2435e812efc1' \\\n  -d '{\n\t\"message\": \"http://placehold.it/180\", \n\t\"text\": \"\", \n\t\"to_number\": \"+905301111111\", \n\t\"type\": \"media\"\n}'",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"requestBody": {
-					"description": "- to_number should start with country code without any special characters.\n- For group conversations you need to pass group.id to to_number. Ex: **\"905301234567-1574073754@g.us\"**\n- If the message to be sent is just a text message, it can be put directly to ***message*** parameter in the body \n- **For media and group message examples please look at 'Request body examples' section below.**\n- For Product messages you need to create your products from WhatsApp Business Phone app and find your product id with **/catalog** endpoints.",
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/sendMessageBody"
-							},
-							"examples": {
-								"Text Message": {
-									"value": {
-										"to_number": "905301234567",
-										"type": "text",
-										"message": "Hello World!"
-									}
-								},
-								"Emoji Message": {
-									"value": {
-										"to_number": "905301234567",
-										"type": "text",
-										"message": "You can use ascii emojis 😀 in your text 📝 messages."
-									}
-								},
-								"Ignore Dupe Filter Example": {
-									"value": {
-										"to_number": "905301234567",
-										"type": "text",
-										"message": "You can add skip_filter: true in messages to skip dupe filter.",
-										"skip_filter": true
-									}
-								},
-								"Media Message": {
-									"value": {
-										"to_number": "905301234567@c.us",
-										"type": "media",
-										"message": "http://placehold.it/180",
-										"text": "Message Caption (optional)"
-									}
-								},
-								"Media Message (base64)": {
-									"value": {
-										"to_number": "905301234567@c.us",
-										"type": "media",
-										"message": "data:image/png;base64,iVBORw0KG...",
-										"text": "Message Caption (optional)"
-									}
-								},
-								"Media Message (Custom Name)": {
-									"value": {
-										"to_number": "905301234567@c.us",
-										"type": "media",
-										"message": "https://cdnydm.com/permedia/SHjKBCXHOfpCf37aIP6EXw.txt",
-										"filename": "demo.txt"
-									}
-								},
-								"Group Message": {
-									"value": {
-										"to_number": "905301234567-1574073754@g.us",
-										"type": "text",
-										"message": "Hello World!"
-									}
-								},
-								"Group Mention Message": {
-									"value": {
-										"to_number": "905301234567-1574073754@g.us",
-										"type": "text",
-										"message": "Just put the number after a at symbol. Example: @905301234567 You can use multiple number."
-									}
-								},
-								"vCard Message": {
-									"value": {
-										"to_number": "905301234567@c.us",
-										"type": "vcard",
-										"message": {
-											"displayName": "John Doe",
-											"vcard": "BEGIN:VCARD\nVERSION:3.0\nFN;CHARSET=UTF-8:John Doe\nN;CHARSET=UTF-8:;John;Doe;;\nTEL;TYPE=CELL:+9051234567\nREV:2020-01-23T11:09:14.782Z\nEND:VCARD"
-										}
-									}
-								},
-								"File Message": {
-									"value": {
-										"to_number": "905301234567@c.us",
-										"type": "media",
-										"message": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-										"text": "Message Caption (optional)"
-									}
-								},
-								"Contact Message": {
-									"value": {
-										"to_number": "905301234567@c.us",
-										"type": "contact",
-										"message": "908501234567@c.us"
-									}
-								},
-								"Forward Message": {
-									"value": {
-										"to_number": "905301234567@c.us",
-										"type": "forward",
-										"message": "false_905301234567-1586347989@g.us_3EB0A81ECEA6D47F2F13",
-										"forward_caption": true
-									}
-								},
-								"Forward Message (Outgoing)": {
-									"value": {
-										"to_number": "905301234567@c.us",
-										"type": "forward",
-										"message": "50d8b950-a67f-11eb-91cc-d97af631df95",
-										"forward_caption": true
-									}
-								},
-								"Delete Message": {
-									"value": {
-										"to_number": "905301234567@c.us",
-										"type": "delete",
-										"message": "50d8b950-a67f-11eb-91cc-d97af631df95"
-									}
-								},
-								"Reply Message": {
-									"value": {
-										"to_number": "905301234567@c.us",
-										"type": "text",
-										"message": "Message Text",
-										"reply_to": "false_905301234567-1586347989@g.us_3EB0A81ECEA6D47F2F13"
-									}
-								},
-								"Reply Message (Outgoing)": {
-									"value": {
-										"to_number": "905301234567@c.us",
-										"type": "text",
-										"message": "Message Text",
-										"reply_to": "50d8b950-a67f-11eb-91cc-d97af631df95"
-									}
-								},
-								"Reaction Message": {
-									"value": {
-										"to_number": "905301234567@c.us",
-										"type": "reaction",
-										"message": "😀",
-										"reply_to": "false_905301234567-1586347989@g.us_3EB0A81ECEA6D47F2F13"
-									}
-								},
-								"Edit Message":{
-									"value": {
-										"to_number": "905301234567@c.us",
-										"type": "edit",
-										"message": "Hello!!",
-										"reply_to": "false_905301234567-1586347989@g.us_3EB0A81ECEA6D47F2F13"
-									}
-								},
-								"Location Message": {
-									"value": {
-										"to_number": "905301234567@c.us",
-										"type": "location",
-										"text": "Fatih Sultan Mehmet Köprüsü",
-										"latitude": "41.093292",
-										"longitude": "29.061737"
-									}
-								},
-								"Link Message": {
-									"value": {
-										"to_number": "905301234567@c.us",
-										"type": "link",
-										"message": "https://maytapi.com/",
-										"text": "WhatsApp API (optional)"
-									}
-								},
-								"Product Message (beta)": {
-									"value": {
-										"to_number": "905301234567@c.us",
-										"type": "product",
-										"productId": "3121315354601301"
-									}
-								},
-								"Buttons Message (beta)": {
-									"value": {
-										"to_number": "905301234567@c.us",
-										"type": "buttons",
-										"message": "Message Body",
-										"buttons": [
-											{
-												"id": "!response 1",
-												"text": "Test Button 1"
-											},
-											{
-												"id": "!response 2",
-												"text": "Test Button 2"
-											},
-											{
-												"id": "!response 3",
-												"text": "Test Button 3"
-											}
-										]
-									}
-								},
-								"Buttons Message with Title and Footer (beta)": {
-									"value": {
-										"to_number": "905301234567@c.us",
-										"type": "buttons",
-										"message": "Message Body",
-										"buttons": [
-											{
-												"id": "!response 1",
-												"text": "Test Button 1"
-											},
-											{
-												"id": "!response 2",
-												"text": "Test Button 2"
-											},
-											{
-												"id": "!response 3",
-												"text": "Test Button 3"
-											}
-										],
-										"footer": "footer",
-										"title": "title"
-									}
-								}
-							}
-						}
-					},
-					"required": true
-				},
-				"responses": {
-					"200": {
-						"description": "Returns the id of the chat and the id of the message. You can use message id to track acknowledgement status.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/sendMessageResponse"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
+    "/logs": {
+      "get": {
+        "tags": ["Account Information Retrieval"],
+        "description": "Returns logs of all the phones.",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": true },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "count": {
+                          "type": "string",
+                          "example": "1"
+                        },
+                        "list": { "$ref": "#/components/schemas/logsList" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{phone_id}/screen": {
+      "get": {
+        "tags": ["Session Information Getters"],
+        "description": "Returns the status of the current session.",
+        "parameters": [{ "$ref": "#/components/parameters/phone_id" }],
+        "responses": {
+          "200": {
+            "description": "Returns the screenshot of the screen in the current session.",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/{phone_id}/status": {
+      "get": {
+        "tags": ["Session Information Getters"],
+        "description": "Returns the screenshot of the screen in the current session.",
+        "parameters": [{ "$ref": "#/components/parameters/phone_id" }],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{phone_id}/queue": {
+      "get": {
+        "tags": ["Queue Operations"],
+        "description": "Returns the queue info of the phone.",
+        "parameters": [{ "$ref": "#/components/parameters/phone_id" }],
+        "responses": {
+          "200": {
+            "description": "Returns the queue info of the phone.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": true },
+                    "stats": {
+                      "type": "object",
+                      "properties": {
+                        "sending": {
+                          "type": "integer",
+                          "example": 0
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{phone_id}/purgeQueue": {
+      "get": {
+        "tags": ["Queue Operations"],
+        "description": "Clears phone's send message queue.",
+        "parameters": [{ "$ref": "#/components/parameters/phone_id" }],
+        "responses": {
+          "200": {
+            "description": "Clears phone's send message queue.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": true }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{phone_id}/qrCode": {
+      "get": {
+        "tags": ["Session Information Getters"],
+        "description": "Returns the qrCode in the current session if there is one.",
+        "parameters": [{ "$ref": "#/components/parameters/phone_id" }],
+        "responses": {
+          "200": {
+            "description": "Returns the screenshot of the qr code in the current session.",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/{phone_id}/contacts": {
+      "get": {
+        "tags": ["Session Information Getters"],
+        "description": "Returns the contacts in the current whatsapp instance.",
+        "parameters": [{ "$ref": "#/components/parameters/phone_id" }],
+        "responses": {
+          "200": {
+            "description": "Returns the contacts in the current whatsapp instance.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": "true" },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "05301234567@c.us"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Conversation Name"
+                          },
+                          "type": {
+                            "type": "string",
+                            "example": "chat",
+                            "enum": ["chat", "group", "broadcast"]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{phone_id}/contact/{conversation_id}": {
+      "get": {
+        "tags": ["Session Information Getters"],
+        "description": "Returns the information of the number you specified in Whatsapp",
+        "parameters": [
+          { "$ref": "#/components/parameters/phone_id" },
+          {
+            "in": "path",
+            "name": "conversation_id",
+            "schema": {
+              "type": "string",
+              "example": "905301234567-1574073754@g.us"
+            },
+            "required": true,
+            "description": "Load conversations info."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the information of the number you specified in Whatsapp",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": "true" },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "05301234567@c.us"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Conversation Name"
+                          },
+                          "type": {
+                            "type": "string",
+                            "example": "chat",
+                            "enum": ["chat", "group", "broadcast"]
+                          },
+                          "image": {
+                            "type": "string",
+                            "example": { "url": "http://placehold.it/180" }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{phone_id}/redeploy": {
+      "get": {
+        "tags": ["Session Controlling Operations"],
+        "description": "Redeploys docker instance of your phone. If your phone having any unexpected problems you can use this endpoint to reboot the instance.",
+        "parameters": [{ "$ref": "#/components/parameters/phone_id" }],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Phone 12 is restarted."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{phone_id}/factoryreset": {
+      "get": {
+        "tags": ["Session Controlling Operations"],
+        "description": "Factory resets everything about phone instance to a new created instance state. This is a replacement for delete/create a new phone. \n\nYour phone instances can't be deleted anymore. This is implemented beacuse some of our customers were loosing their phone instance when their subscription(or trial) suspended. With the new system your phones would only set to disabled state and after you fix your subscription you can re-enable your phones either making a request(/screen etc.) to instance or from our control panel.",
+        "parameters": [{ "$ref": "#/components/parameters/phone_id" }],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/justSuccess"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{phone_id}/logout": {
+      "get": {
+        "tags": ["Session Controlling Operations"],
+        "description": "Logouts the number from the current session and converts the screen to qr-code screen.",
+        "parameters": [{ "$ref": "#/components/parameters/phone_id" }],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/justSuccess"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{phone_id}/config": {
+      "get": {
+        "tags": ["Session Controlling Operations"],
+        "description": "Get phone specifig config for webhook and ack_delivery. If empty product webhook config would be used for delivery.",
+        "parameters": [{ "$ref": "#/components/parameters/phone_id" }],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/phone_config"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Session Controlling Operations"],
+        "description": "Set phone specifig config for webhook and ack_delivery. If empty product webhook config would be used for delivery.\n\nWith this api you can define webhook for individual phones.",
+        "parameters": [{ "$ref": "#/components/parameters/phone_id" }],
+        "requestBody": {
+          "description": "With this api you can define webhook for individual phones.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "webhook": { "$ref": "#/components/schemas/webhook-url" },
+                  "ack_delivery": {
+                    "type": "boolean",
+                    "default": "false"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/phone_config"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{phone_id}/delete": {
+      "get": {
+        "tags": ["Session Controlling Operations"],
+        "deprecated": true,
+        "summary": "DEPRECATED please use /factoryreset",
+        "description": "**[DEPRECATED please use /factoryreset]** Deletes the phone and closes the session of that number.",
+        "parameters": [{ "$ref": "#/components/parameters/phone_id" }],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/deleteSuccess"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{phone_id}/restart": {
+      "get": {
+        "tags": ["Session Controlling Operations"],
+        "deprecated": true,
+        "summary": "DEPRECATED please use /redeploy",
+        "description": "**[DEPRECATED please use /redeploy]** Restarts the session by refreshing the page.",
+        "parameters": [{ "$ref": "#/components/parameters/phone_id" }],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/justSuccess"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{phone_id}/backup": {
+      "get": {
+        "tags": ["Session Controlling Operations"],
+        "deprecated": true,
+        "summary": "DEPRECATED Multi-Device doesn't support this feature.",
+        "description": "**[DEPRECATED Multi-Device doesn't support this feature]** Backups the material needed for opening the same chat screen for the current phone number. This call is useful when the session and also the status of the session is active. The response information can be used to open the chat screen with the POST restore call. If logout is called after getting the backup information, the data obtained from there will not be valid anymore.",
+        "parameters": [{ "$ref": "#/components/parameters/phone_id" }],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/backupSuccess"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{phone_id}/restore": {
+      "post": {
+        "tags": ["Session Controlling Operations"],
+        "deprecated": true,
+        "summary": "DEPRECATED Multi-Device doesn't support this feature.",
+        "description": "**[DEPRECATED Multi-Device doesn't support this feature]** Reloads the current session based on the reload data (can be obtained from ***POST backup***).",
+        "parameters": [{ "$ref": "#/components/parameters/phone_id" }],
+        "requestBody": {
+          "description": "All the session restoring data needed.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/backupData"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/justSuccess"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{phone_id}/sendMessage": {
+      "post": {
+        "tags": ["Message Sending Operations"],
+        "description": "Used for sending message to a chat. A text, image, video, sound and document can be sent.\n\n**This endpoint adds messages to your phone's sending queue. If your messages not delivering to phones please check your instance logs, queue endpoint or connection (/screen).**\n\n**Curl example:** (You need to change product_id, phone_id and token[x-maytapi-key] with your product's values...)\n```bash\ncurl -X POST \\\n'https://api.maytapi.com/api/dc01968f-####-####-####-7cfcf51aa423/12/sendMessage' \\\n  -H 'Content-Type: application/json' \\\n  -H 'x-maytapi-key: b267697c-####-####-####-2435e812efc1' \\\n  -d '{\n\t\"message\": \"http://placehold.it/180\", \n\t\"text\": \"\", \n\t\"to_number\": \"+905301111111\", \n\t\"type\": \"media\"\n}'",
+        "parameters": [{ "$ref": "#/components/parameters/phone_id" }],
+        "requestBody": {
+          "description": "- to_number should start with country code without any special characters.\n- For group conversations you need to pass group.id to to_number. Ex: **\"905301234567-1574073754@g.us\"**\n- If the message to be sent is just a text message, it can be put directly to ***message*** parameter in the body \n- **For media and group message examples please look at 'Request body examples' section below.**\n- For Product messages you need to create your products from WhatsApp Business Phone app and find your product id with **/catalog** endpoints.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/sendMessageBody"
+              },
+              "examples": {
+                "Text Message": {
+                  "value": {
+                    "to_number": "905301234567",
+                    "type": "text",
+                    "message": "Hello World!"
+                  }
+                },
+                "Emoji Message": {
+                  "value": {
+                    "to_number": "905301234567",
+                    "type": "text",
+                    "message": "You can use ascii emojis 😀 in your text 📝 messages."
+                  }
+                },
+                "Ignore Dupe Filter Example": {
+                  "value": {
+                    "to_number": "905301234567",
+                    "type": "text",
+                    "message": "You can add skip_filter: true in messages to skip dupe filter.",
+                    "skip_filter": true
+                  }
+                },
+                "Media Message": {
+                  "value": {
+                    "to_number": "905301234567@c.us",
+                    "type": "media",
+                    "message": "http://placehold.it/180",
+                    "text": "Message Caption (optional)"
+                  }
+                },
+                "Media Message (base64)": {
+                  "value": {
+                    "to_number": "905301234567@c.us",
+                    "type": "media",
+                    "message": "data:image/png;base64,iVBORw0KG...",
+                    "text": "Message Caption (optional)"
+                  }
+                },
+                "Media Message (Custom Name)": {
+                  "value": {
+                    "to_number": "905301234567@c.us",
+                    "type": "media",
+                    "message": "https://cdnydm.com/permedia/SHjKBCXHOfpCf37aIP6EXw.txt",
+                    "filename": "demo.txt"
+                  }
+                },
+                "Group Message": {
+                  "value": {
+                    "to_number": "905301234567-1574073754@g.us",
+                    "type": "text",
+                    "message": "Hello World!"
+                  }
+                },
+                "Group Mention Message": {
+                  "value": {
+                    "to_number": "905301234567-1574073754@g.us",
+                    "type": "text",
+                    "message": "Just put the number after a at symbol. Example: @905301234567 You can use multiple number."
+                  }
+                },
+                "vCard Message": {
+                  "value": {
+                    "to_number": "905301234567@c.us",
+                    "type": "vcard",
+                    "message": {
+                      "displayName": "John Doe",
+                      "vcard": "BEGIN:VCARD\nVERSION:3.0\nFN;CHARSET=UTF-8:John Doe\nN;CHARSET=UTF-8:;John;Doe;;\nTEL;TYPE=CELL:+9051234567\nREV:2020-01-23T11:09:14.782Z\nEND:VCARD"
+                    }
+                  }
+                },
+                "File Message": {
+                  "value": {
+                    "to_number": "905301234567@c.us",
+                    "type": "media",
+                    "message": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+                    "text": "Message Caption (optional)"
+                  }
+                },
+                "Contact Message": {
+                  "value": {
+                    "to_number": "905301234567@c.us",
+                    "type": "contact",
+                    "message": "908501234567@c.us"
+                  }
+                },
+                "Forward Message": {
+                  "value": {
+                    "to_number": "905301234567@c.us",
+                    "type": "forward",
+                    "message": "false_905301234567-1586347989@g.us_3EB0A81ECEA6D47F2F13",
+                    "forward_caption": true
+                  }
+                },
+                "Forward Message (Outgoing)": {
+                  "value": {
+                    "to_number": "905301234567@c.us",
+                    "type": "forward",
+                    "message": "50d8b950-a67f-11eb-91cc-d97af631df95",
+                    "forward_caption": true
+                  }
+                },
+                "Delete Message": {
+                  "value": {
+                    "to_number": "905301234567@c.us",
+                    "type": "delete",
+                    "message": "50d8b950-a67f-11eb-91cc-d97af631df95"
+                  }
+                },
+                "Reply Message": {
+                  "value": {
+                    "to_number": "905301234567@c.us",
+                    "type": "text",
+                    "message": "Message Text",
+                    "reply_to": "false_905301234567-1586347989@g.us_3EB0A81ECEA6D47F2F13"
+                  }
+                },
+                "Reply Message (Outgoing)": {
+                  "value": {
+                    "to_number": "905301234567@c.us",
+                    "type": "text",
+                    "message": "Message Text",
+                    "reply_to": "50d8b950-a67f-11eb-91cc-d97af631df95"
+                  }
+                },
+                "Reaction Message": {
+                  "value": {
+                    "to_number": "905301234567@c.us",
+                    "type": "reaction",
+                    "message": "😀",
+                    "reply_to": "false_905301234567-1586347989@g.us_3EB0A81ECEA6D47F2F13"
+                  }
+                },
+                "Edit Message": {
+                  "value": {
+                    "to_number": "905301234567@c.us",
+                    "type": "edit",
+                    "message": "Hello!!",
+                    "reply_to": "false_905301234567-1586347989@g.us_3EB0A81ECEA6D47F2F13"
+                  }
+                },
+                "Location Message": {
+                  "value": {
+                    "to_number": "905301234567@c.us",
+                    "type": "location",
+                    "text": "Fatih Sultan Mehmet Köprüsü",
+                    "latitude": "41.093292",
+                    "longitude": "29.061737"
+                  }
+                },
+                "Link Message": {
+                  "value": {
+                    "to_number": "905301234567@c.us",
+                    "type": "link",
+                    "message": "https://maytapi.com/",
+                    "text": "WhatsApp API (optional)"
+                  }
+                },
+                "Product Message (beta)": {
+                  "value": {
+                    "to_number": "905301234567@c.us",
+                    "type": "product",
+                    "productId": "3121315354601301"
+                  }
+                },
+                "Buttons Message (beta)": {
+                  "value": {
+                    "to_number": "905301234567@c.us",
+                    "type": "buttons",
+                    "message": "Message Body",
+                    "buttons": [
+                      {
+                        "id": "!response 1",
+                        "text": "Test Button 1"
+                      },
+                      {
+                        "id": "!response 2",
+                        "text": "Test Button 2"
+                      },
+                      {
+                        "id": "!response 3",
+                        "text": "Test Button 3"
+                      }
+                    ]
+                  }
+                },
+                "Buttons Message with Title and Footer (beta)": {
+                  "value": {
+                    "to_number": "905301234567@c.us",
+                    "type": "buttons",
+                    "message": "Message Body",
+                    "buttons": [
+                      {
+                        "id": "!response 1",
+                        "text": "Test Button 1"
+                      },
+                      {
+                        "id": "!response 2",
+                        "text": "Test Button 2"
+                      },
+                      {
+                        "id": "!response 3",
+                        "text": "Test Button 3"
+                      }
+                    ],
+                    "footer": "footer",
+                    "title": "title"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the id of the chat and the id of the message. You can use message id to track acknowledgement status.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/sendMessageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
 
-		"/{phone_id}/catalog": {
-			"get": {
-				"tags": ["Business Catalog (Beta)"],
-				"description": "Returns catalog products info of the business profile. You only need productId to send products to users.",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"responses": {
-					"200": {
-						"description": "Returns catalog products info of the business profile",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"success": { "type": "boolean", "example": true },
-										"data": {
-											"type": "array",
-											"items": {
-												"$ref": "#/components/schemas/product-data"
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/{phone_id}/createGroup": {
-			"post": {
-				"tags": ["Group Chat Operations"],
-				"description": "Sets the option for getting the acknowledge messages from the webhook to true or false.",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"requestBody": {
-					"description": "Acknowledge messages taking preference is indicated.",
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"name": { "type": "string", "example": "Group Title" },
-									"numbers": { "type": "array", "items": { "type": "string", "example": "905301234567" } }
-								}
-							}
-						}
-					},
-					"required": true
-				},
-				"responses": {
-					"200": {
-						"description": "Returns the information of updated selected product.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"success": { "type": "boolean" },
-										"data": { "$ref": "#/components/schemas/groupData" }
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/{phone_id}/getGroups": {
-			"get": {
-				"tags": ["Group Chat Operations"],
-				"description": "Get conversations list.",
-				"parameters": [
-					{ "$ref": "#/components/parameters/phone_id" },
-					{
-						"in": "query",
-						"name": "full",
-						"schema": { "type": "boolean", "example": "true", "default": null },
-						"required": false,
-						"description": "Load participants for old conversations. (Max response limit:100)"
-					},
-					{
-						"in": "query",
-						"name": "sort",
-						"schema": { "type": "boolean", "example": "true", "default": null },
-						"required": false,
-						"description": "Sort groups by id."
-					},
-					{
-						"in": "query",
-						"name": "invite",
-						"schema": { "type": "boolean", "example": "true", "default": null },
-						"required": false,
-						"description": "Include invite links for groups. (Max response limit:50)"
-					},
-					{
-						"in": "query",
-						"name": "page",
-						"schema": { "type": "integer", "example": "2", "default": "1" },
-						"required": false,
-						"description": "Paging for groups. We suggest to use with **sort** option."
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Returns the information of updated selected product.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"success": { "type": "boolean", "example": "true" },
-										"count": { "type": "integer", "example": "25" },
-										"total": { "type": "integer", "example": "75" },
-										"limit": { "type": "integer", "example": "50" },
-										"page": { "type": "integer", "example": "2" },
-										"data": { "type": "array", "items": { "$ref": "#/components/schemas/groupData" } }
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/{phone_id}/getGroups/{conversation_id}": {
-			"get": {
-				"tags": ["Group Chat Operations"],
-				"description": "Get a conversation info.",
-				"parameters": [
-					{ "$ref": "#/components/parameters/phone_id" },
-					{
-						"in": "path",
-						"name": "conversation_id",
-						"schema": { "type": "string", "example": "905301234567-1574073754@g.us" },
-						"required": true,
-						"description": "Load conversations info."
-					},
-					{
-						"in": "query",
-						"name": "invite",
-						"schema": { "type": "boolean", "example": "true" },
-						"required": false,
-						"description": "Generate invite link for group."
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Returns the information of updated selected product.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"success": { "type": "boolean" },
-										"data": { "$ref": "#/components/schemas/groupData" }
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/{phone_id}/setProfileImage": {
-			"post": {
-				"tags": ["Group Chat Operations"],
-				"description": "Change profile picture of a group conversation or yourself.\n\nTo change profile picture of yourself you need to leave the conversation_id blank.\n\nYou need to use square images for better view. We suggest 512x512 images.",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"requestBody": {
-					"description": "Group conversation id and number is required for the actions.",
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"conversation_id": {
-										"type": "string",
-										"example": "905301234567-1574072436@g.us"
-									},
-									"image": {
-										"type": "string",
-										"example": "https://yourwebsite.com/picture.png"
-									}
-								}
-							}
-						}
-					},
-					"required": true
-				},
-				"responses": {
-					"200": {
-						"description": "Returns the success information about the action.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"success": { "type": "boolean" }
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/{phone_id}/group/config": {
-			"post": {
-				"tags": ["Group Chat Operations"],
-				"description": "Change config of a group conversation.\n\nTo learn conversation_id you can use /getGroups endpoint.\n\nYou can change who can edit group info(edit), can send message(send) and disappearing messages enabled(disappear).\n\nFor edit and send config you can use values \"admins\" or \"all\".\n\nDisappear only accepts true/false values.\n\nConfig values are optional. If you want to only change a config you should only use that config's key in request body.",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"requestBody": {
-					"description": "Group conversation id and number is required for the actions.",
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"conversation_id": {
-										"type": "string",
-										"example": "905301234567-1574072436@g.us"
-									},
-									"config": {
-										"type": "object",
-										"properties": {
-											"edit": { "type": "string", "enum": ["admins", "all"], "example": "all" },
-											"send": { "type": "string", "enum": ["admins", "all"], "example": "all" },
-											"disappear": { "type": "boolean", "default": false }
-										}
-									}
-								}
-							}
-						}
-					},
-					"required": true
-				},
-				"responses": {
-					"200": {
-						"description": "Returns the success information about the action.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"success": { "type": "boolean" },
-										"data": {
-											"type": "object",
-											"properties": {
-												"edit": { "type": "string", "enum": ["admins", "all"], "example": "all" },
-												"send": { "type": "string", "enum": ["admins", "all"], "example": "all" },
-												"disappear": { "type": "boolean", "default": false }
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/{phone_id}/group/add": {
-			"post": {
-				"tags": ["Group Chat Operations"],
-				"description": "Add a participant to a group conversation.\n\nTo learn conversation_id you can use /getGroups endpoint.",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"requestBody": {
-					"description": "Group conversation id and number is required for the actions.",
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"conversation_id": {
-										"type": "string",
-										"example": "905301234567-1574072436@g.us"
-									},
-									"number": { "type": "string", "example": "905301234567@c.us" }
-								}
-							}
-						}
-					},
-					"required": true
-				},
-				"responses": {
-					"200": {
-						"description": "Returns the success information about the action.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"success": { "type": "boolean" }
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/{phone_id}/group/remove": {
-			"post": {
-				"tags": ["Group Chat Operations"],
-				"description": "Remove a participant from a group conversation.\n\nTo learn conversation_id you can use /getGroups endpoint.",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"requestBody": {
-					"description": "Group conversation id and number is required for the actions.",
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"conversation_id": {
-										"type": "string",
-										"example": "905301234567-1574072436@g.us"
-									},
-									"number": { "type": "string", "example": "905301234567@c.us" }
-								}
-							}
-						}
-					},
-					"required": true
-				},
-				"responses": {
-					"200": {
-						"description": "Returns the success information about the action.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"success": { "type": "boolean" }
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/{phone_id}/group/promote": {
-			"post": {
-				"tags": ["Group Chat Operations"],
-				"description": "Promote a participant in a group conversation.\n\nTo learn conversation_id you can use /getGroups endpoint.",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"requestBody": {
-					"description": "Group conversation id and number is required for the actions.",
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"conversation_id": {
-										"type": "string",
-										"example": "905301234567-1574072436@g.us"
-									},
-									"number": { "type": "string", "example": "905301234567@c.us" }
-								}
-							}
-						}
-					},
-					"required": true
-				},
-				"responses": {
-					"200": {
-						"description": "Returns the success information about the action.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"success": { "type": "boolean" }
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/{phone_id}/group/demote": {
-			"post": {
-				"tags": ["Group Chat Operations"],
-				"description": "Demote a participant in a group conversation.\n\nTo learn conversation_id you can use /getGroups endpoint.",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"requestBody": {
-					"description": "Group conversation id and number is required for the actions.",
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"conversation_id": {
-										"type": "string",
-										"example": "905301234567-1574072436@g.us"
-									},
-									"number": { "type": "string", "example": "905301234567@c.us" }
-								}
-							}
-						}
-					},
-					"required": true
-				},
-				"responses": {
-					"200": {
-						"description": "Returns the success information about the action.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"success": { "type": "boolean" }
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/{phone_id}/leaveGroup": {
-			"post": {
-				"tags": ["Group Chat Operations"],
-				"description": "You can leave the group you want with the help of this endpoint.",
-				"parameters": [{ "$ref": "#/components/parameters/phone_id" }],
-				"requestBody": {
-					"description": "Group conversation id and number is required for the actions.",
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"id": {
-										"type": "string",
-										"example": "905301234567-1574072436@g.us"
-									}
-								}
-							}
-						}
-					},
-					"required": true
-				},
-				"responses": {
-					"200": {
-						"description": "Returns the success information about the action.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"success": { "type": "boolean" },
-										"data":{"type":"boolean"}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	},
-	"security": [
-		{
-			"ApiKeyAuth": ["x-maytapi-key"]
-		}
-	],
-	"components": {
-		"parameters": {
-			"phone_id": {
-				"name": "phone_id",
-				"in": "path",
-				"description": "ID of the phone registered to the product, assigned by the database automatically. Can be obtained by calling ***GET listPhones***.",
-				"required": true,
-				"schema": { "$ref": "#/components/schemas/phone-id" }
-			}
-		},
-		"securitySchemes": {
-			"ApiKeyAuth": {
-				"type": "apiKey",
-				"name": "x-maytapi-key",
-				"in": "header",
-				"description": "You can find your token at [https://console.maytapi.com/settings/token](https://console.maytapi.com/settings/token)"
-			}
-		},
-		"schemas": {
-			"Status": {
-				"type": "object",
-				"properties": {
-					"success": {
-						"type": "boolean"
-					},
-					"status": {
-						"$ref": "#/components/schemas/subStatus"
-					}
-				}
-			},
-			"phone_config": {
-				"type": "object",
-				"properties": {
-					"success": {
-						"type": "boolean",
-						"default": true
-					},
-					"status": {
-						"type": "object",
-						"properties": {
-							"webhook": { "$ref": "#/components/schemas/webhook-url" },
-							"ack_delivery": {
-								"type": "boolean",
-								"default": "false"
-							}
-						}
-					}
-				}
-			},
-			"backupData": {
-				"type": "object",
-				"properties": {
-					"WABrowserId": {
-						"type": "string",
-						"example": "..."
-					},
-					"debugCursor": {
-						"type": "string",
-						"example": "..."
-					},
-					"whatsapp-mutex": {
-						"type": "string",
-						"example": "..."
-					},
-					"(other_keys)": {
-						"type": "string",
-						"example": "(other values)"
-					}
-				}
-			},
-			"justSuccess": {
-				"type": "object",
-				"properties": {
-					"success": {
-						"type": "boolean",
-						"example": true
-					}
-				}
-			},
-			"addPhoneBody": {
-				"type": "object",
-				"properties": {
-					"number": {
-						"type": "string",
-						"example": "..."
-					}
-				}
-			},
-			"productData": {
-				"type": "object",
-				"properties": {
-					"pid": { "$ref": "#/components/schemas/product-id" },
-					"webhook": {
-						"$ref": "#/components/schemas/webhook-url"
-					},
-					"ack_delivery": {
-						"type": "boolean",
-						"example": true
-					},
-					"phone_limit": {
-						"type": "integer",
-						"example": 2
-					}
-				}
-			},
-			"phoneList": {
-				"type": "array",
-				"items": {
-					"$ref": "#/components/schemas/phoneObj"
-				}
-			},
-			"logIncoming": {},
-			"logOutgoing": {},
-			"logObj": {
-				"type": "object",
-				"properties": {
-					"id": { "type": "integer", "example": 1 },
-					"pid": {
-						"$ref": "#/components/schemas/product-id"
-					},
-					"phone": {
-						"$ref": "#/components/schemas/phone-id"
-					},
-					"created_at": { "type": "string", "example": "2020-04-02T06:47:50.229Z" },
-					"updated_at": { "type": "string", "example": "2020-04-02T06:47:50.229Z" },
-					"type": {
-						"type": "string",
-						"enum": ["incoming", "outgoing", "error"],
-						"example": "outgoing"
-					},
-					"data": {
-						"type": "object",
-						"oneOf": [{ "$ref": "#/components/schemas/logIncoming" }, { "$ref": "#/components/schemas/logOutgoing" }],
-						"example": {
-							"body": {
-								"type": "message",
-								"user": {
-									"id": "905301234567@c.us",
-									"name": "905301234567",
-									"phone": "905301234567"
-								},
-								"reply": "https://api.maytapi.com/api/dc01968f-####-####-####-7cfcf51aa423/12/sendMessage",
-								"message": {
-									"id": "true_123456@c.us_***",
-									"text": "ok",
-									"type": "text",
-									"fromMe": true,
-									"_serialized": "true_123456@c.us_***"
-								},
-								"phoneId": 1,
-								"phone_id": 1,
-								"receiver": "908501234567",
-								"productId": "dc01968f-####-####-####-7cfcf51aa423",
-								"timestamp": 1585808781,
-								"product_id": "dc01968f-####-####-####-7cfcf51aa423",
-								"conversation": "905301234567@c.us"
-							},
-							"webhook": "YOUR WEBHOOK URL",
-							"response": {
-								"body": "OK",
-								"statusCode": 200
-							}
-						}
-					}
-				}
-			},
+    "/{phone_id}/catalog": {
+      "get": {
+        "tags": ["Business Catalog (Beta)"],
+        "description": "Returns catalog products info of the business profile. You only need productId to send products to users.",
+        "parameters": [{ "$ref": "#/components/parameters/phone_id" }],
+        "responses": {
+          "200": {
+            "description": "Returns catalog products info of the business profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": true },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/product-data"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{phone_id}/createGroup": {
+      "post": {
+        "tags": ["Group Chat Operations"],
+        "description": "Sets the option for getting the acknowledge messages from the webhook to true or false.",
+        "parameters": [{ "$ref": "#/components/parameters/phone_id" }],
+        "requestBody": {
+          "description": "Acknowledge messages taking preference is indicated.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "example": "Group Title" },
+                  "numbers": {
+                    "type": "array",
+                    "items": { "type": "string", "example": "905301234567" }
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the information of updated selected product.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "data": { "$ref": "#/components/schemas/groupData" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{phone_id}/getGroups": {
+      "get": {
+        "tags": ["Group Chat Operations"],
+        "description": "Get conversations list.",
+        "parameters": [
+          { "$ref": "#/components/parameters/phone_id" },
+          {
+            "in": "query",
+            "name": "full",
+            "schema": { "type": "boolean", "example": "true", "default": null },
+            "required": false,
+            "description": "Load participants for old conversations. (Max response limit:100)"
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "schema": { "type": "boolean", "example": "true", "default": null },
+            "required": false,
+            "description": "Sort groups by id."
+          },
+          {
+            "in": "query",
+            "name": "invite",
+            "schema": { "type": "boolean", "example": "true", "default": null },
+            "required": false,
+            "description": "Include invite links for groups. (Max response limit:50)"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": { "type": "integer", "example": "2", "default": "1" },
+            "required": false,
+            "description": "Paging for groups. We suggest to use with **sort** option."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the information of updated selected product.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": "true" },
+                    "count": { "type": "integer", "example": "25" },
+                    "total": { "type": "integer", "example": "75" },
+                    "limit": { "type": "integer", "example": "50" },
+                    "page": { "type": "integer", "example": "2" },
+                    "data": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/groupData" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{phone_id}/getGroups/{conversation_id}": {
+      "get": {
+        "tags": ["Group Chat Operations"],
+        "description": "Get a conversation info.",
+        "parameters": [
+          { "$ref": "#/components/parameters/phone_id" },
+          {
+            "in": "path",
+            "name": "conversation_id",
+            "schema": {
+              "type": "string",
+              "example": "905301234567-1574073754@g.us"
+            },
+            "required": true,
+            "description": "Load conversations info."
+          },
+          {
+            "in": "query",
+            "name": "invite",
+            "schema": { "type": "boolean", "example": "true" },
+            "required": false,
+            "description": "Generate invite link for group."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the information of updated selected product.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "data": { "$ref": "#/components/schemas/groupData" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{phone_id}/setProfileImage": {
+      "post": {
+        "tags": ["Group Chat Operations"],
+        "description": "Change profile picture of a group conversation or yourself.\n\nTo change profile picture of yourself you need to leave the conversation_id blank.\n\nYou need to use square images for better view. We suggest 512x512 images.",
+        "parameters": [{ "$ref": "#/components/parameters/phone_id" }],
+        "requestBody": {
+          "description": "Group conversation id and number is required for the actions.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "conversation_id": {
+                    "type": "string",
+                    "example": "905301234567-1574072436@g.us"
+                  },
+                  "image": {
+                    "type": "string",
+                    "example": "https://yourwebsite.com/picture.png"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the success information about the action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{phone_id}/group/config": {
+      "post": {
+        "tags": ["Group Chat Operations"],
+        "description": "Change config of a group conversation.\n\nTo learn conversation_id you can use /getGroups endpoint.\n\nYou can change who can edit group info(edit), can send message(send) and disappearing messages enabled(disappear).\n\nFor edit and send config you can use values \"admins\" or \"all\".\n\nDisappear only accepts true/false values.\n\nConfig values are optional. If you want to only change a config you should only use that config's key in request body.",
+        "parameters": [{ "$ref": "#/components/parameters/phone_id" }],
+        "requestBody": {
+          "description": "Group conversation id and number is required for the actions.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "conversation_id": {
+                    "type": "string",
+                    "example": "905301234567-1574072436@g.us"
+                  },
+                  "config": {
+                    "type": "object",
+                    "properties": {
+                      "edit": {
+                        "type": "string",
+                        "enum": ["admins", "all"],
+                        "example": "all"
+                      },
+                      "send": {
+                        "type": "string",
+                        "enum": ["admins", "all"],
+                        "example": "all"
+                      },
+                      "disappear": { "type": "boolean", "default": false }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the success information about the action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "edit": {
+                          "type": "string",
+                          "enum": ["admins", "all"],
+                          "example": "all"
+                        },
+                        "send": {
+                          "type": "string",
+                          "enum": ["admins", "all"],
+                          "example": "all"
+                        },
+                        "disappear": { "type": "boolean", "default": false }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{phone_id}/group/add": {
+      "post": {
+        "tags": ["Group Chat Operations"],
+        "description": "Add a participant to a group conversation.\n\nTo learn conversation_id you can use /getGroups endpoint.",
+        "parameters": [{ "$ref": "#/components/parameters/phone_id" }],
+        "requestBody": {
+          "description": "Group conversation id and number is required for the actions.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "conversation_id": {
+                    "type": "string",
+                    "example": "905301234567-1574072436@g.us"
+                  },
+                  "number": { "type": "string", "example": "905301234567@c.us" }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the success information about the action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{phone_id}/group/remove": {
+      "post": {
+        "tags": ["Group Chat Operations"],
+        "description": "Remove a participant from a group conversation.\n\nTo learn conversation_id you can use /getGroups endpoint.",
+        "parameters": [{ "$ref": "#/components/parameters/phone_id" }],
+        "requestBody": {
+          "description": "Group conversation id and number is required for the actions.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "conversation_id": {
+                    "type": "string",
+                    "example": "905301234567-1574072436@g.us"
+                  },
+                  "number": { "type": "string", "example": "905301234567@c.us" }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the success information about the action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{phone_id}/group/promote": {
+      "post": {
+        "tags": ["Group Chat Operations"],
+        "description": "Promote a participant in a group conversation.\n\nTo learn conversation_id you can use /getGroups endpoint.",
+        "parameters": [{ "$ref": "#/components/parameters/phone_id" }],
+        "requestBody": {
+          "description": "Group conversation id and number is required for the actions.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "conversation_id": {
+                    "type": "string",
+                    "example": "905301234567-1574072436@g.us"
+                  },
+                  "number": { "type": "string", "example": "905301234567@c.us" }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the success information about the action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{phone_id}/group/demote": {
+      "post": {
+        "tags": ["Group Chat Operations"],
+        "description": "Demote a participant in a group conversation.\n\nTo learn conversation_id you can use /getGroups endpoint.",
+        "parameters": [{ "$ref": "#/components/parameters/phone_id" }],
+        "requestBody": {
+          "description": "Group conversation id and number is required for the actions.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "conversation_id": {
+                    "type": "string",
+                    "example": "905301234567-1574072436@g.us"
+                  },
+                  "number": { "type": "string", "example": "905301234567@c.us" }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the success information about the action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/{phone_id}/leaveGroup": {
+      "post": {
+        "tags": ["Group Chat Operations"],
+        "description": "You can leave the group you want with the help of this endpoint.",
+        "parameters": [{ "$ref": "#/components/parameters/phone_id" }],
+        "requestBody": {
+          "description": "Group conversation id and number is required for the actions.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "905301234567-1574072436@g.us"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the success information about the action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "data": { "type": "boolean" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "ApiKeyAuth": ["x-maytapi-key"]
+    }
+  ],
+  "components": {
+    "parameters": {
+      "phone_id": {
+        "name": "phone_id",
+        "in": "path",
+        "description": "ID of the phone registered to the product, assigned by the database automatically. Can be obtained by calling ***GET listPhones***.",
+        "required": true,
+        "schema": { "$ref": "#/components/schemas/phone-id" }
+      }
+    },
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "name": "x-maytapi-key",
+        "in": "header",
+        "description": "You can find your token at [https://console.maytapi.com/settings/token](https://console.maytapi.com/settings/token)"
+      }
+    },
+    "schemas": {
+      "Status": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "status": {
+            "$ref": "#/components/schemas/subStatus"
+          }
+        }
+      },
+      "phone_config": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "default": true
+          },
+          "status": {
+            "type": "object",
+            "properties": {
+              "webhook": { "$ref": "#/components/schemas/webhook-url" },
+              "ack_delivery": {
+                "type": "boolean",
+                "default": "false"
+              }
+            }
+          }
+        }
+      },
+      "backupData": {
+        "type": "object",
+        "properties": {
+          "WABrowserId": {
+            "type": "string",
+            "example": "..."
+          },
+          "debugCursor": {
+            "type": "string",
+            "example": "..."
+          },
+          "whatsapp-mutex": {
+            "type": "string",
+            "example": "..."
+          },
+          "(other_keys)": {
+            "type": "string",
+            "example": "(other values)"
+          }
+        }
+      },
+      "justSuccess": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "addPhoneBody": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "string",
+            "example": "..."
+          }
+        }
+      },
+      "productData": {
+        "type": "object",
+        "properties": {
+          "pid": { "$ref": "#/components/schemas/product-id" },
+          "webhook": {
+            "$ref": "#/components/schemas/webhook-url"
+          },
+          "ack_delivery": {
+            "type": "boolean",
+            "example": true
+          },
+          "phone_limit": {
+            "type": "integer",
+            "example": 2
+          }
+        }
+      },
+      "phoneList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/phoneObj"
+        }
+      },
+      "logIncoming": {},
+      "logOutgoing": {},
+      "logObj": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "pid": {
+            "$ref": "#/components/schemas/product-id"
+          },
+          "phone": {
+            "$ref": "#/components/schemas/phone-id"
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2020-04-02T06:47:50.229Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "example": "2020-04-02T06:47:50.229Z"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["incoming", "outgoing", "error"],
+            "example": "outgoing"
+          },
+          "data": {
+            "type": "object",
+            "oneOf": [
+              { "$ref": "#/components/schemas/logIncoming" },
+              { "$ref": "#/components/schemas/logOutgoing" }
+            ],
+            "example": {
+              "body": {
+                "type": "message",
+                "user": {
+                  "id": "905301234567@c.us",
+                  "name": "905301234567",
+                  "phone": "905301234567"
+                },
+                "reply": "https://api.maytapi.com/api/dc01968f-####-####-####-7cfcf51aa423/12/sendMessage",
+                "message": {
+                  "id": "true_123456@c.us_***",
+                  "text": "ok",
+                  "type": "text",
+                  "fromMe": true,
+                  "_serialized": "true_123456@c.us_***"
+                },
+                "phoneId": 1,
+                "phone_id": 1,
+                "receiver": "908501234567",
+                "productId": "dc01968f-####-####-####-7cfcf51aa423",
+                "timestamp": 1585808781,
+                "product_id": "dc01968f-####-####-####-7cfcf51aa423",
+                "conversation": "905301234567@c.us"
+              },
+              "webhook": "YOUR WEBHOOK URL",
+              "response": {
+                "body": "OK",
+                "statusCode": 200
+              }
+            }
+          }
+        }
+      },
 
-			"logsList": {
-				"type": "array",
-				"items": {
-					"$ref": "#/components/schemas/logObj"
-				}
-			},
-			"incomingMessageUserData": {
-				"type": "object",
-				"properties": {
-					"id": {
-						"$ref": "#/components/schemas/conversation-id"
-					},
-					"name": {
-						"type": "string",
-						"example": "UserName"
-					},
-					"phone": {
-						"type": "string",
-						"example": "905301234567"
-					},
-					"image": {
-						"type": "string",
-						"example": "https://pps.whatsapp.net/v/...."
-					}
-				},
-				"example": {
-					"id": "905301234567@c.us",
-					"name": "UserName",
-					"phone": "905301234567",
-					"image": "https://pps.whatsapp.net/v/...."
-				}
-			},
-			"webhook-ack-data": {
-				"type": "object",
-				"properties": {
-					"ackType": {
-						"type": "string",
-						"enum": ["delivered", "reached", "seen", "played", "deleted"],
-						"example": "delivered"
-					},
-					"ackCode": {
-						"type": "integer",
-						"enum": [1, 2, 3, 4, 5],
-						"example": 1
-					},
-					"chatId": { "$ref": "#/components/schemas/conversation-id" },
-					"msgId": { "$ref": "#/components/schemas/message-id" },
-					"time": {
-						"type": "integer",
-						"example": 1586874663
-					}
-				}
-			},
-			"webhook-ack-body": {
-				"type": "object",
-				"properties": {
-					"type": { "type": "string", "default": "ack", "example": "ack" },
-					"product_id": {
-						"$ref": "#/components/schemas/product-id"
-					},
+      "logsList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/logObj"
+        }
+      },
+      "incomingMessageUserData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/conversation-id"
+          },
+          "name": {
+            "type": "string",
+            "example": "UserName"
+          },
+          "phone": {
+            "type": "string",
+            "example": "905301234567"
+          },
+          "image": {
+            "type": "string",
+            "example": "https://pps.whatsapp.net/v/...."
+          }
+        },
+        "example": {
+          "id": "905301234567@c.us",
+          "name": "UserName",
+          "phone": "905301234567",
+          "image": "https://pps.whatsapp.net/v/...."
+        }
+      },
+      "webhook-ack-data": {
+        "type": "object",
+        "properties": {
+          "ackType": {
+            "type": "string",
+            "enum": ["delivered", "reached", "seen", "played", "deleted"],
+            "example": "delivered"
+          },
+          "ackCode": {
+            "type": "integer",
+            "enum": [1, 2, 3, 4, 5],
+            "example": 1
+          },
+          "chatId": { "$ref": "#/components/schemas/conversation-id" },
+          "msgId": { "$ref": "#/components/schemas/message-id" },
+          "time": {
+            "type": "integer",
+            "example": 1586874663
+          }
+        }
+      },
+      "webhook-ack-body": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "default": "ack", "example": "ack" },
+          "product_id": {
+            "$ref": "#/components/schemas/product-id"
+          },
 
-					"data": {
-						"type": "array",
-						"items": {
-							"$ref": "#/components/schemas/webhook-ack-data"
-						}
-					}
-				}
-			},
-			"webhook-live-body": {
-				"type": "object",
-				"properties": {
-					"type": { "type": "string", "default": "live_event", "example": "live_event" },
-					"product_id": {
-						"$ref": "#/components/schemas/product-id"
-					},
-					"phone_id": {
-						"$ref": "#/components/schemas/phone-id"
-					},
-					"conversation": {
-						"$ref": "#/components/schemas/conversation-id"
-					},
-					"data": {
-						"type": "object",
-						"properties": { "event": { "type": "string", "enum": ["taken_by_agent", "closed", "released_by_agent"], "example": "taken_by_agent" } }
-					}
-				}
-			},
-			"webhook-status-body": {
-				"type": "object",
-				"properties": {
-					"type": { "type": "string", "default": "status", "example": "status" },
-					"pid": {
-						"$ref": "#/components/schemas/product-id"
-					},
-					"phone_id": {
-						"$ref": "#/components/schemas/phone-id"
-					},
-					"status": {
-						"$ref": "#/components/schemas/status-enum"
-					}
-				}
-			},
-			"status-enum": {
-				"type": "string",
-				"enum": ["active", "qr-code", "phone-error", "idle", "loading", "disabled"],
-				"example": "active"
-			},
-			"subStatus": {
-				"type": "object",
-				"properties": {
-					"loggedIn": {
-						"type": "boolean"
-					},
-					"isQr": {
-						"type": "boolean",
-						"example": false
-					},
-					"loading": {
-						"type": "boolean",
-						"example": false
-					},
-					"connRetry": {
-						"type": "boolean",
-						"example": false
-					},
-					"message": {
-						"type": "string",
-						"example": "Special messages about the status are shown here"
-					}
-				}
-			},
-			"incomingMessageType": {
-				"type": "object",
-				"properties": {
-					"product_id": { "$ref": "#/components/schemas/product-id" },
-					"phone_id": { "$ref": "#/components/schemas/phone-id" },
-					"message": {
-						"$ref": "#/components/schemas/message-data"
-					},
-					"user": {
-						"$ref": "#/components/schemas/incomingMessageUserData"
-					},
-					"conversation": {
-						"$ref": "#/components/schemas/conversation-id"
-					},
-					"receiver": {
-						"type": "string",
-						"example": "905307654321"
-					},
-					"timestamp": {
-						"type": "integer",
-						"example": 1574081887
-					},
-					"type": {
-						"type": "string",
-						"example": "message"
-					},
-					"reply": {
-						"type": "string",
-						"example": "https://maytapi.com/api/dc01968f-####-####-####-7cfcf51aa423/12/sendMessage",
-						"description": "Reply url for ease of use."
-					},
-					"quoted": {
-						"$ref": "#/components/schemas/message-quoted-data"
-					}
-				}
-			},
-			"phoneObjWithPid": {
-				"type": "object",
-				"properties": {
-					"id": {
-						"type": "string",
-						"example": "..."
-					},
-					"pid": { "$ref": "#/components/schemas/product-id" },
-					"number": {
-						"type": "string",
-						"example": "(number with the country code included without +)"
-					}
-				}
-			},
-			"ackSet": {
-				"type": "object",
-				"properties": {
-					"ack_delivery": {
-						"type": "boolean",
-						"example": true
-					}
-				}
-			},
-			"backupSuccess": {
-				"type": "object",
-				"properties": {
-					"success": {
-						"type": "boolean",
-						"example": true
-					},
-					"data": {
-						"$ref": "#/components/schemas/backupData"
-					}
-				}
-			},
-			"deleteSuccess": {
-				"type": "object",
-				"properties": {
-					"success": {
-						"type": "boolean",
-						"example": true
-					},
-					"type": {
-						"type": "string",
-						"example": "deleted"
-					},
-					"pid": { "$ref": "#/components/schemas/product-id" },
-					"phone_id": {
-						"type": "string",
-						"example": "phone_id"
-					}
-				}
-			},
-			"sendMessageResponseData": {
-				"type": "object",
-				"properties": {
-					"chatId": {
-						"type": "string",
-						"example": "905301234567-1574072436@g.us"
-					},
-					"msgId": {
-						"type": "string",
-						"example": "3EB065B353B9493D00C9"
-					}
-				}
-			},
-			"sendMessageBody": {
-				"type": "object",
-				"properties": {
-					"to_number": {
-						"type": "string",
-						"example": "905301234567"
-					},
-					"message": {
-						"type": "string",
-						"example": "Message Text"
-					},
-					"type": {
-						"type": "string",
-						"enum": ["text", "media"],
-						"example": "text"
-					}
-				}
-			},
-			"phoneObj": {
-				"type": "object",
-				"properties": {
-					"id": {
-						"type": "integer",
-						"example": "1150"
-					},
-					"number": {
-						"type": "string",
-						"example": "(number with the country code included without +)"
-					},
-					"status": {
-						"$ref": "#/components/schemas/status-enum"
-					}
-				}
-			},
-			"queue-phone": {
-				"type": "object",
-				"properties": {
-					"id": {
-						"type": "integer",
-						"example": "1150"
-					},
-					"status": {
-						"$ref": "#/components/schemas/status-enum"
-					},
-					"queue": {
-						"type": "integer",
-						"example": "0"
-					}
-				}
-			},
-			"webhook-url": {
-				"type": "string",
-				"format": "uri",
-				"example": "https://myserver.com/send/callback/here"
-			},
-			"sendMessageResponse": {
-				"type": "object",
-				"properties": {
-					"success": {
-						"type": "boolean",
-						"example": true
-					},
-					"data": {
-						"$ref": "#/components/schemas/sendMessageResponseData"
-					}
-				}
-			},
-			"groupData": {
-				"type": "object",
-				"properties": {
-					"id": {
-						"type": "string",
-						"example": "905301234567-1574073754@g.us"
-					},
-					"name": {
-						"type": "string",
-						"example": "Group Title"
-					},
-					"participants": {
-						"type": "array",
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/webhook-ack-data"
+            }
+          }
+        }
+      },
+      "webhook-live-body": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "default": "live_event",
+            "example": "live_event"
+          },
+          "product_id": {
+            "$ref": "#/components/schemas/product-id"
+          },
+          "phone_id": {
+            "$ref": "#/components/schemas/phone-id"
+          },
+          "conversation": {
+            "$ref": "#/components/schemas/conversation-id"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "event": {
+                "type": "string",
+                "enum": ["taken_by_agent", "closed", "released_by_agent"],
+                "example": "taken_by_agent"
+              }
+            }
+          }
+        }
+      },
+      "webhook-status-body": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "default": "status",
+            "example": "status"
+          },
+          "pid": {
+            "$ref": "#/components/schemas/product-id"
+          },
+          "phone_id": {
+            "$ref": "#/components/schemas/phone-id"
+          },
+          "status": {
+            "$ref": "#/components/schemas/status-enum"
+          }
+        }
+      },
+      "status-enum": {
+        "type": "string",
+        "enum": [
+          "active",
+          "qr-code",
+          "phone-error",
+          "idle",
+          "loading",
+          "disabled"
+        ],
+        "example": "active"
+      },
+      "subStatus": {
+        "type": "object",
+        "properties": {
+          "loggedIn": {
+            "type": "boolean"
+          },
+          "isQr": {
+            "type": "boolean",
+            "example": false
+          },
+          "loading": {
+            "type": "boolean",
+            "example": false
+          },
+          "connRetry": {
+            "type": "boolean",
+            "example": false
+          },
+          "message": {
+            "type": "string",
+            "example": "Special messages about the status are shown here"
+          }
+        }
+      },
+      "incomingMessageType": {
+        "type": "object",
+        "properties": {
+          "product_id": { "$ref": "#/components/schemas/product-id" },
+          "phone_id": { "$ref": "#/components/schemas/phone-id" },
+          "message": {
+            "$ref": "#/components/schemas/message-data"
+          },
+          "user": {
+            "$ref": "#/components/schemas/incomingMessageUserData"
+          },
+          "conversation": {
+            "$ref": "#/components/schemas/conversation-id"
+          },
+          "receiver": {
+            "type": "string",
+            "example": "905307654321"
+          },
+          "timestamp": {
+            "type": "integer",
+            "example": 1574081887
+          },
+          "type": {
+            "type": "string",
+            "example": "message"
+          },
+          "reply": {
+            "type": "string",
+            "example": "https://maytapi.com/api/dc01968f-####-####-####-7cfcf51aa423/12/sendMessage",
+            "description": "Reply url for ease of use."
+          },
+          "quoted": {
+            "$ref": "#/components/schemas/message-quoted-data"
+          }
+        }
+      },
+      "phoneObjWithPid": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "..."
+          },
+          "pid": { "$ref": "#/components/schemas/product-id" },
+          "number": {
+            "type": "string",
+            "example": "(number with the country code included without +)"
+          }
+        }
+      },
+      "ackSet": {
+        "type": "object",
+        "properties": {
+          "ack_delivery": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "backupSuccess": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/backupData"
+          }
+        }
+      },
+      "deleteSuccess": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "type": {
+            "type": "string",
+            "example": "deleted"
+          },
+          "pid": { "$ref": "#/components/schemas/product-id" },
+          "phone_id": {
+            "type": "string",
+            "example": "phone_id"
+          }
+        }
+      },
+      "sendMessageResponseData": {
+        "type": "object",
+        "properties": {
+          "chatId": {
+            "type": "string",
+            "example": "905301234567-1574072436@g.us"
+          },
+          "msgId": {
+            "type": "string",
+            "example": "3EB065B353B9493D00C9"
+          }
+        }
+      },
+      "sendMessageBody": {
+        "type": "object",
+        "properties": {
+          "to_number": {
+            "type": "string",
+            "example": "905301234567"
+          },
+          "message": {
+            "type": "string",
+            "example": "Message Text"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["text", "media"],
+            "example": "text"
+          }
+        }
+      },
+      "phoneObj": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": "1150"
+          },
+          "number": {
+            "type": "string",
+            "example": "(number with the country code included without +)"
+          },
+          "status": {
+            "$ref": "#/components/schemas/status-enum"
+          }
+        }
+      },
+      "queue-phone": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": "1150"
+          },
+          "status": {
+            "$ref": "#/components/schemas/status-enum"
+          },
+          "queue": {
+            "type": "integer",
+            "example": "0"
+          }
+        }
+      },
+      "webhook-url": {
+        "type": "object",
+        "properties": {
+          "webhook": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://myserver.com/send/callback/here"
+          }
+        }
+      },
+      "sendMessageResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/sendMessageResponseData"
+          }
+        }
+      },
+      "groupData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "905301234567-1574073754@g.us"
+          },
+          "name": {
+            "type": "string",
+            "example": "Group Title"
+          },
+          "participants": {
+            "type": "array",
 
-						"items": {
-							"type": "string",
-							"example": "05301234567@c.us"
-						}
-					},
-					"admins": {
-						"type": "array",
+            "items": {
+              "type": "string",
+              "example": "05301234567@c.us"
+            }
+          },
+          "admins": {
+            "type": "array",
 
-						"items": {
-							"type": "string",
-							"example": "05301234567@c.us"
-						}
-					},
-					"config": {
-						"type": "object",
-						"properties": {
-							"edit": {
-								"type": "string",
-								"enum": ["admins", "all"],
-								"example": "admins"
-							},
-							"send": {
-								"type": "string",
-								"enum": ["admins", "all"],
-								"example": "all"
-							},
-							"disappear": {
-								"type": "boolean",
-								"example": false
-							}
-						}
-					}
-				}
-			},
-			"product-id": { "type": "string", "example": "dc01968f-####-####-####-7cfcf51aa423" },
-			"phone-id": { "type": "string", "example": "12" },
-			"conversation-id": { "type": "string", "example": "905301234567@c.us" },
-			"message-id": {
-				"type": "string",
-				"example": "3EB081AF26FADE6416D8"
-			},
-			"message-quoted-data": {
-				"nullable": true,
-				"allOf": [
-					{ "$ref": "#/components/schemas/message-data" },
-					{
-						"type": "object",
-						"properties": {
-							"user": {
-								"$ref": "#/components/schemas/incomingMessageUserData"
-							},
-							"timestamp": { "type": "integer", "example": "1574098389" }
-						}
-					}
-				],
-				"example": {
-					"id": "3EB081AF26FADE6416D8",
-					"type": "text",
-					"text": "Message Text",
-					"user": {
-						"id": "905301234567@c.us",
-						"name": "UserName",
-						"phone": "905301234567",
-						"image": "https://pps.whatsapp.net/v/...."
-					},
-					"timestamp": 1574098389
-				}
-			},
-			"message-data": {
-				"type": "object",
-				"oneOf": [
-					{ "$ref": "#/components/schemas/text-message" },
-					{ "$ref": "#/components/schemas/mention-message" },
-					{ "$ref": "#/components/schemas/media-message" },
-					{ "$ref": "#/components/schemas/location-message" },
-					{ "$ref": "#/components/schemas/vcard-message" },
-					{ "$ref": "#/components/schemas/multi-vcard-message" },
-					{ "$ref": "#/components/schemas/info-message" }
-				],
-				"example": {
-					"id": "3EB081AF26FADE6416D8",
-					"type": "text",
-					"text": "Message Text",
-					"fromMe": false,
-					"mentions": []
-				}
-			},
-			"text-message": {
-				"type": "object",
-				"properties": {
-					"type": {
-						"type": "string",
-						"default": "text"
-					},
-					"id": { "$ref": "#/components/schemas/message-id" },
-					"text": { "type": "string", "example": "Message Text Content" },
-					"fromMe": { "type": "boolean", "example": false }
-				}
-			},
-			"mention-message": {
-				"type": "object",
-				"properties": {
-					"type": {
-						"type": "string",
-						"default": "text"
-					},
-					"id": { "$ref": "#/components/schemas/message-id" },
-					"text": { "type": "string", "example": "Message @905301234567 Text Content" },
-					"fromMe": { "type": "boolean", "example": false },
-					"mentions": {
-						"type": "array",
-						"items": {
-							"type": "string",
-							"example": "905301234567@c.us"
-						}
-					}
-				}
-			},
-			"media-message": {
-				"type": "object",
-				"properties": {
-					"type": {
-						"type": "string",
-						"enum": ["image", "video", "document", "ptt", "sticker"],
-						"example": "image"
-					},
-					"id": { "$ref": "#/components/schemas/message-id" },
-					"url": { "type": "string", "example": "https://cdn.maytapi.com/flow/########.jpeg" },
-					"caption": { "type": "string", "example": "Media Caption Text" },
-					"filename": { "type": "string", "example": "wa-media-########.jpeg" },
-					"mime": { "type": "string", "example": "image/jpeg" },
-					"fromMe": { "type": "boolean", "example": false }
-				}
-			},
-			"info-message": {
-				"type": "object",
-				"properties": {
-					"type": {
-						"type": "string",
-						"example": "info"
-					},
-					"id": { "$ref": "#/components/schemas/message-id" },
-					"subtype": {
-						"type": "string",
-						"enum": ["group/promote", "group/demote", "group/add", "group/remove", "group/invite", "group/leave"],
-						"example": "group/add"
-					},
-					"participant": { "type": "string", "example": "905301234567@c.us" }
-				}
-			},
-			"location-message": {
-				"type": "object",
-				"properties": {
-					"type": {
-						"type": "string",
-						"default": "location"
-					},
-					"id": { "$ref": "#/components/schemas/message-id" },
-					"payload": { "type": "string", "example": "38.3978531,28.968876", "description": "Format: 'latitude,longitude'" }
-				}
-			},
-			"vcard-message": {
-				"type": "object",
-				"properties": {
-					"type": {
-						"type": "string",
-						"default": "vcard"
-					},
-					"id": { "$ref": "#/components/schemas/message-id" },
-					"vcardList": { "type": "array", "items": { "$ref": "#/components/schemas/vcard-data" } }
-				}
-			},
-			"multi-vcard-message": {
-				"type": "object",
-				"properties": {
-					"type": {
-						"type": "string",
-						"default": "multi_vcard"
-					},
-					"id": { "$ref": "#/components/schemas/message-id" },
-					"vcardList": { "type": "array", "items": { "$ref": "#/components/schemas/vcard-data" } }
-				}
-			},
-			"vcard-data": {
-				"type": "object",
-				"properties": {
-					"displayName": { "type": "string", "example": "Maytapi" },
-					"vcard": { "type": "string", "example": "BEGIN:VCARD\nVERSION:3.0\nN:.......END:VCARD" }
-				}
-			},
-			"product-data": {
-				"type": "object",
-				"properties": {
-					"type": {
-						"type": "string",
-						"example": "product"
-					},
-					"productId": { "type": "string", "example": "2878114402238236" },
-					"image": { "type": "string", "example": "https://cdn.maytapi.com/flow/########.jpeg" },
-					"url": { "type": "string", "example": "https://yourwebsite.com/..." },
-					"price": { "type": "integer", "example": 30 },
-					"price1000": { "type": "integer", "example": 30000 },
-					"title": { "type": "string", "example": "Product Name" },
-					"description": { "type": "string", "example": "Product Description" },
-					"retailerId": { "type": "string", "example": "Product Retailer Id" },
-					"business": { "type": "string", "example": "905301234567@c.us" },
-					"currency": { "type": "string", "example": "TRY" },
-					"id": { "$ref": "#/components/schemas/message-id" }
-				}
-			}
-		}
-	}
+            "items": {
+              "type": "string",
+              "example": "05301234567@c.us"
+            }
+          },
+          "config": {
+            "type": "object",
+            "properties": {
+              "edit": {
+                "type": "string",
+                "enum": ["admins", "all"],
+                "example": "admins"
+              },
+              "send": {
+                "type": "string",
+                "enum": ["admins", "all"],
+                "example": "all"
+              },
+              "disappear": {
+                "type": "boolean",
+                "example": false
+              }
+            }
+          }
+        }
+      },
+      "product-id": {
+        "type": "string",
+        "example": "dc01968f-####-####-####-7cfcf51aa423"
+      },
+      "phone-id": { "type": "string", "example": "12" },
+      "conversation-id": { "type": "string", "example": "905301234567@c.us" },
+      "message-id": {
+        "type": "string",
+        "example": "3EB081AF26FADE6416D8"
+      },
+      "message-quoted-data": {
+        "nullable": true,
+        "allOf": [
+          { "$ref": "#/components/schemas/message-data" },
+          {
+            "type": "object",
+            "properties": {
+              "user": {
+                "$ref": "#/components/schemas/incomingMessageUserData"
+              },
+              "timestamp": { "type": "integer", "example": "1574098389" }
+            }
+          }
+        ],
+        "example": {
+          "id": "3EB081AF26FADE6416D8",
+          "type": "text",
+          "text": "Message Text",
+          "user": {
+            "id": "905301234567@c.us",
+            "name": "UserName",
+            "phone": "905301234567",
+            "image": "https://pps.whatsapp.net/v/...."
+          },
+          "timestamp": 1574098389
+        }
+      },
+      "message-data": {
+        "type": "object",
+        "oneOf": [
+          { "$ref": "#/components/schemas/text-message" },
+          { "$ref": "#/components/schemas/mention-message" },
+          { "$ref": "#/components/schemas/media-message" },
+          { "$ref": "#/components/schemas/location-message" },
+          { "$ref": "#/components/schemas/vcard-message" },
+          { "$ref": "#/components/schemas/multi-vcard-message" },
+          { "$ref": "#/components/schemas/info-message" }
+        ],
+        "example": {
+          "id": "3EB081AF26FADE6416D8",
+          "type": "text",
+          "text": "Message Text",
+          "fromMe": false,
+          "mentions": []
+        }
+      },
+      "text-message": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "default": "text"
+          },
+          "id": { "$ref": "#/components/schemas/message-id" },
+          "text": { "type": "string", "example": "Message Text Content" },
+          "fromMe": { "type": "boolean", "example": false }
+        }
+      },
+      "mention-message": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "default": "text"
+          },
+          "id": { "$ref": "#/components/schemas/message-id" },
+          "text": {
+            "type": "string",
+            "example": "Message @905301234567 Text Content"
+          },
+          "fromMe": { "type": "boolean", "example": false },
+          "mentions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "905301234567@c.us"
+            }
+          }
+        }
+      },
+      "media-message": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["image", "video", "document", "ptt", "sticker"],
+            "example": "image"
+          },
+          "id": { "$ref": "#/components/schemas/message-id" },
+          "url": {
+            "type": "string",
+            "example": "https://cdn.maytapi.com/flow/########.jpeg"
+          },
+          "caption": { "type": "string", "example": "Media Caption Text" },
+          "filename": { "type": "string", "example": "wa-media-########.jpeg" },
+          "mime": { "type": "string", "example": "image/jpeg" },
+          "fromMe": { "type": "boolean", "example": false }
+        }
+      },
+      "info-message": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "info"
+          },
+          "id": { "$ref": "#/components/schemas/message-id" },
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "group/promote",
+              "group/demote",
+              "group/add",
+              "group/remove",
+              "group/invite",
+              "group/leave"
+            ],
+            "example": "group/add"
+          },
+          "participant": { "type": "string", "example": "905301234567@c.us" }
+        }
+      },
+      "location-message": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "default": "location"
+          },
+          "id": { "$ref": "#/components/schemas/message-id" },
+          "payload": {
+            "type": "string",
+            "example": "38.3978531,28.968876",
+            "description": "Format: 'latitude,longitude'"
+          }
+        }
+      },
+      "vcard-message": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "default": "vcard"
+          },
+          "id": { "$ref": "#/components/schemas/message-id" },
+          "vcardList": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/vcard-data" }
+          }
+        }
+      },
+      "multi-vcard-message": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "default": "multi_vcard"
+          },
+          "id": { "$ref": "#/components/schemas/message-id" },
+          "vcardList": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/vcard-data" }
+          }
+        }
+      },
+      "vcard-data": {
+        "type": "object",
+        "properties": {
+          "displayName": { "type": "string", "example": "Maytapi" },
+          "vcard": {
+            "type": "string",
+            "example": "BEGIN:VCARD\nVERSION:3.0\nN:.......END:VCARD"
+          }
+        }
+      },
+      "product-data": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "product"
+          },
+          "productId": { "type": "string", "example": "2878114402238236" },
+          "image": {
+            "type": "string",
+            "example": "https://cdn.maytapi.com/flow/########.jpeg"
+          },
+          "url": { "type": "string", "example": "https://yourwebsite.com/..." },
+          "price": { "type": "integer", "example": 30 },
+          "price1000": { "type": "integer", "example": 30000 },
+          "title": { "type": "string", "example": "Product Name" },
+          "description": { "type": "string", "example": "Product Description" },
+          "retailerId": { "type": "string", "example": "Product Retailer Id" },
+          "business": { "type": "string", "example": "905301234567@c.us" },
+          "currency": { "type": "string", "example": "TRY" },
+          "id": { "$ref": "#/components/schemas/message-id" }
+        }
+      }
+    }
+  }
 }

@@ -10,12 +10,10 @@
  * Do not edit the class manually.
  */
 
-import { WebhookUrl } from '../models/WebhookUrl.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class PhoneIdConfigPostRequest {
-    'webhook'?: WebhookUrl;
-    'ackDelivery'?: boolean;
+export class WebhookUrl {
+    'webhook'?: string;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -23,18 +21,12 @@ export class PhoneIdConfigPostRequest {
         {
             "name": "webhook",
             "baseName": "webhook",
-            "type": "WebhookUrl",
-            "format": ""
-        },
-        {
-            "name": "ackDelivery",
-            "baseName": "ack_delivery",
-            "type": "boolean",
-            "format": ""
+            "type": "string",
+            "format": "uri"
         }    ];
 
     static getAttributeTypeMap() {
-        return PhoneIdConfigPostRequest.attributeTypeMap;
+        return WebhookUrl.attributeTypeMap;
     }
 
     public constructor() {

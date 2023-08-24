@@ -15,7 +15,7 @@ import { PhoneObj } from '../models/PhoneObj.ts';
 import { PhoneObjWithPid } from '../models/PhoneObjWithPid.ts';
 import { ProductData } from '../models/ProductData.ts';
 import { QueuesGet200Response } from '../models/QueuesGet200Response.ts';
-import { UNKNOWN_BASE_TYPE } from '../models/UNKNOWNBASETYPE.ts';
+import { WebhookUrl } from '../models/WebhookUrl.ts';
 
 /**
  * no description
@@ -229,14 +229,14 @@ export class AccountInformationRetrievalApiRequestFactory extends BaseAPIRequest
 
     /**
      * Sets a webhook address for the selected product. Webhook is used for delivering the incoming messages and acknowledge notifications of sent messages to the user. The notification formats that reaches to the webhook are as follows:
-     * @param UNKNOWN_BASE_TYPE Webhook data is indicated.
+     * @param webhookUrl Webhook data is indicated.
      */
-    public async setWebhookPost(UNKNOWN_BASE_TYPE: UNKNOWN_BASE_TYPE, _options?: Configuration): Promise<RequestContext> {
+    public async setWebhookPost(webhookUrl: WebhookUrl, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
-        // verify required parameter 'UNKNOWN_BASE_TYPE' is not null or undefined
-        if (UNKNOWN_BASE_TYPE === null || UNKNOWN_BASE_TYPE === undefined) {
-            throw new RequiredError("AccountInformationRetrievalApi", "setWebhookPost", "UNKNOWN_BASE_TYPE");
+        // verify required parameter 'webhookUrl' is not null or undefined
+        if (webhookUrl === null || webhookUrl === undefined) {
+            throw new RequiredError("AccountInformationRetrievalApi", "setWebhookPost", "webhookUrl");
         }
 
 
@@ -254,7 +254,7 @@ export class AccountInformationRetrievalApiRequestFactory extends BaseAPIRequest
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(UNKNOWN_BASE_TYPE, "UNKNOWN_BASE_TYPE", ""),
+            ObjectSerializer.serialize(webhookUrl, "WebhookUrl", ""),
             contentType
         );
         requestContext.setBody(serializedBody);

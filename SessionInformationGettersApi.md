@@ -4,15 +4,15 @@ All URIs are relative to *https://api.maytapi.com/api/xxxxxxxx-xxxx-xxxx-xxxx-xx
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**phoneIdContactCidGet**](SessionInformationGettersApi.md#phoneIdContactCidGet) | **GET** /{phone_id}/contact/:cid | 
+[**phoneIdContactConversationIdGet**](SessionInformationGettersApi.md#phoneIdContactConversationIdGet) | **GET** /{phone_id}/contact/{conversation_id} | 
 [**phoneIdContactsGet**](SessionInformationGettersApi.md#phoneIdContactsGet) | **GET** /{phone_id}/contacts | 
 [**phoneIdQrCodeGet**](SessionInformationGettersApi.md#phoneIdQrCodeGet) | **GET** /{phone_id}/qrCode | 
 [**phoneIdScreenGet**](SessionInformationGettersApi.md#phoneIdScreenGet) | **GET** /{phone_id}/screen | 
 [**phoneIdStatusGet**](SessionInformationGettersApi.md#phoneIdStatusGet) | **GET** /{phone_id}/status | 
 
 
-# **phoneIdContactCidGet**
-> PhoneIdContactCidGet200Response phoneIdContactCidGet()
+# **phoneIdContactConversationIdGet**
+> PhoneIdContactConversationIdGet200Response phoneIdContactConversationIdGet()
 
 Returns the information of the number you specified in Whatsapp
 
@@ -26,13 +26,14 @@ import * as fs from 'fs';
 const configuration = .createConfiguration();
 const apiInstance = new .SessionInformationGettersApi(configuration);
 
-let body:.SessionInformationGettersApiPhoneIdContactCidGetRequest = {
+let body:.SessionInformationGettersApiPhoneIdContactConversationIdGetRequest = {
   // string | ID of the phone registered to the product, assigned by the database automatically. Can be obtained by calling ***GET listPhones***.
   phoneId: "12",
-  conversationId: "120363147890986325@g.us"
+  // string | Load conversations info.
+  conversationId: "905301234567-1574073754@g.us",
 };
 
-apiInstance.phoneIdContactCidGet(body).then((data:any) => {
+apiInstance.phoneIdContactConversationIdGet(body).then((data:any) => {
   console.log('API called successfully. Returned data: ' + data);
 }).catch((error:any) => console.error(error));
 ```
@@ -43,11 +44,12 @@ apiInstance.phoneIdContactCidGet(body).then((data:any) => {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **phoneId** | [**string**] | ID of the phone registered to the product, assigned by the database automatically. Can be obtained by calling ***GET listPhones***. | defaults to undefined
+ **conversationId** | [**string**] | Load conversations info. | defaults to undefined
 
 
 ### Return type
 
-**PhoneIdContactCidGet200Response**
+**PhoneIdContactConversationIdGet200Response**
 
 ### Authorization
 

@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 AccountInformationRetrievalApi.md
 BusinessCatalogBetaApi.md
 GroupChatOperationsApi.md
@@ -49,8 +48,8 @@ models/ObjectSerializer.ts
 models/PhoneConfig.ts
 models/PhoneIdCatalogGet200Response.ts
 models/PhoneIdConfigPostRequest.ts
-models/PhoneIdContactCidGet200Response.ts
-models/PhoneIdContactCidGet200ResponseDataInner.ts
+models/PhoneIdContactConversationIdGet200Response.ts
+models/PhoneIdContactConversationIdGet200ResponseDataInner.ts
 models/PhoneIdContactsGet200Response.ts
 models/PhoneIdContactsGet200ResponseDataInner.ts
 models/PhoneIdCreateGroupPost200Response.ts
@@ -87,6 +86,7 @@ models/WebhookAckData.ts
 models/WebhookLiveBody.ts
 models/WebhookLiveBodyData.ts
 models/WebhookStatusBody.ts
+models/WebhookUrl.ts
 models/all.ts
 rxjsStub.ts
 servers.ts

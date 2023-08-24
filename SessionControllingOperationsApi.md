@@ -143,7 +143,9 @@ let body:.SessionControllingOperationsApiPhoneIdConfigPostRequest = {
   phoneId: "12",
   // PhoneIdConfigPostRequest | With this api you can define webhook for individual phones.
   phoneIdConfigPostRequest: {
-    webhook: "https://myserver.com/send/callback/here",
+    webhook: {
+      webhook: "https://myserver.com/send/callback/here",
+    },
     ackDelivery: false,
   },
 };

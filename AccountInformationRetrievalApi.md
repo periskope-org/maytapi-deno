@@ -318,7 +318,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **setWebhookPost**
-> ProductData setWebhookPost(UNKNOWN_BASE_TYPE)
+> ProductData setWebhookPost(webhookUrl)
 
 Sets a webhook address for the selected product. Webhook is used for delivering the incoming messages and acknowledge notifications of sent messages to the user. The notification formats that reaches to the webhook are as follows:
 
@@ -333,8 +333,8 @@ const configuration = .createConfiguration();
 const apiInstance = new .AccountInformationRetrievalApi(configuration);
 
 let body:.AccountInformationRetrievalApiSetWebhookPostRequest = {
-  // UNKNOWN_BASE_TYPE | Webhook data is indicated.
-  UNKNOWN_BASE_TYPE: {
+  // WebhookUrl | Webhook data is indicated.
+  webhookUrl: {
     webhook: "https://myserver.com/send/callback/here",
   },
 };
@@ -349,7 +349,7 @@ apiInstance.setWebhookPost(body).then((data:any) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_BASE_TYPE** | **UNKNOWN_BASE_TYPE**| Webhook data is indicated. |
+ **webhookUrl** | **WebhookUrl**| Webhook data is indicated. |
 
 
 ### Return type

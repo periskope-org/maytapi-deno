@@ -10,31 +10,31 @@
  * Do not edit the class manually.
  */
 
-import { WebhookUrl } from '../models/WebhookUrl.ts';
+import { PhoneIdContactConversationIdGet200ResponseDataInner } from '../models/PhoneIdContactConversationIdGet200ResponseDataInner.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class PhoneIdConfigPostRequest {
-    'webhook'?: WebhookUrl;
-    'ackDelivery'?: boolean;
+export class PhoneIdContactConversationIdGet200Response {
+    'success'?: boolean;
+    'data'?: Array<PhoneIdContactConversationIdGet200ResponseDataInner>;
 
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "webhook",
-            "baseName": "webhook",
-            "type": "WebhookUrl",
+            "name": "success",
+            "baseName": "success",
+            "type": "boolean",
             "format": ""
         },
         {
-            "name": "ackDelivery",
-            "baseName": "ack_delivery",
-            "type": "boolean",
+            "name": "data",
+            "baseName": "data",
+            "type": "Array<PhoneIdContactConversationIdGet200ResponseDataInner>",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return PhoneIdConfigPostRequest.attributeTypeMap;
+        return PhoneIdContactConversationIdGet200Response.attributeTypeMap;
     }
 
     public constructor() {

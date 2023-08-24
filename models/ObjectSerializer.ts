@@ -23,8 +23,8 @@ export * from '../models/MultiVcardMessage.ts';
 export * from '../models/PhoneConfig.ts';
 export * from '../models/PhoneIdCatalogGet200Response.ts';
 export * from '../models/PhoneIdConfigPostRequest.ts';
-export * from '../models/PhoneIdContactCidGet200Response.ts';
-export * from '../models/PhoneIdContactCidGet200ResponseDataInner.ts';
+export * from '../models/PhoneIdContactConversationIdGet200Response.ts';
+export * from '../models/PhoneIdContactConversationIdGet200ResponseDataInner.ts';
 export * from '../models/PhoneIdContactsGet200Response.ts';
 export * from '../models/PhoneIdContactsGet200ResponseDataInner.ts';
 export * from '../models/PhoneIdCreateGroupPost200Response.ts';
@@ -61,6 +61,7 @@ export * from '../models/WebhookAckData.ts';
 export * from '../models/WebhookLiveBody.ts';
 export * from '../models/WebhookLiveBodyData.ts';
 export * from '../models/WebhookStatusBody.ts';
+export * from '../models/WebhookUrl.ts';
 
 import { AckSet } from '../models/AckSet.ts';
 import { AddPhoneBody } from '../models/AddPhoneBody.ts';
@@ -87,8 +88,8 @@ import { MultiVcardMessage } from '../models/MultiVcardMessage.ts';
 import { PhoneConfig } from '../models/PhoneConfig.ts';
 import { PhoneIdCatalogGet200Response } from '../models/PhoneIdCatalogGet200Response.ts';
 import { PhoneIdConfigPostRequest } from '../models/PhoneIdConfigPostRequest.ts';
-import { PhoneIdContactCidGet200Response } from '../models/PhoneIdContactCidGet200Response.ts';
-import { PhoneIdContactCidGet200ResponseDataInner  , PhoneIdContactCidGet200ResponseDataInnerTypeEnum    } from '../models/PhoneIdContactCidGet200ResponseDataInner.ts';
+import { PhoneIdContactConversationIdGet200Response } from '../models/PhoneIdContactConversationIdGet200Response.ts';
+import { PhoneIdContactConversationIdGet200ResponseDataInner  , PhoneIdContactConversationIdGet200ResponseDataInnerTypeEnum    } from '../models/PhoneIdContactConversationIdGet200ResponseDataInner.ts';
 import { PhoneIdContactsGet200Response } from '../models/PhoneIdContactsGet200Response.ts';
 import { PhoneIdContactsGet200ResponseDataInner  , PhoneIdContactsGet200ResponseDataInnerTypeEnum   } from '../models/PhoneIdContactsGet200ResponseDataInner.ts';
 import { PhoneIdCreateGroupPost200Response } from '../models/PhoneIdCreateGroupPost200Response.ts';
@@ -125,6 +126,7 @@ import { WebhookAckData, WebhookAckDataAckTypeEnum  , WebhookAckDataAckCodeEnum 
 import { WebhookLiveBody } from '../models/WebhookLiveBody.ts';
 import { WebhookLiveBodyData, WebhookLiveBodyDataEventEnum   } from '../models/WebhookLiveBodyData.ts';
 import { WebhookStatusBody     } from '../models/WebhookStatusBody.ts';
+import { WebhookUrl } from '../models/WebhookUrl.ts';
 
 /* tslint:disable:no-unused-variable */
 let primitives = [
@@ -153,7 +155,7 @@ let enumsMap: Set<string> = new Set<string>([
     "MediaMessageTypeEnum",
     "MessageDataSubtypeEnum",
     "MessageQuotedDataSubtypeEnum",
-    "PhoneIdContactCidGet200ResponseDataInnerTypeEnum",
+    "PhoneIdContactConversationIdGet200ResponseDataInnerTypeEnum",
     "PhoneIdContactsGet200ResponseDataInnerTypeEnum",
     "PhoneIdGroupConfigPostRequestConfigEditEnum",
     "PhoneIdGroupConfigPostRequestConfigSendEnum",
@@ -190,8 +192,8 @@ let typeMap: {[index: string]: any} = {
     "PhoneConfig": PhoneConfig,
     "PhoneIdCatalogGet200Response": PhoneIdCatalogGet200Response,
     "PhoneIdConfigPostRequest": PhoneIdConfigPostRequest,
-    "PhoneIdContactCidGet200Response": PhoneIdContactCidGet200Response,
-    "PhoneIdContactCidGet200ResponseDataInner": PhoneIdContactCidGet200ResponseDataInner,
+    "PhoneIdContactConversationIdGet200Response": PhoneIdContactConversationIdGet200Response,
+    "PhoneIdContactConversationIdGet200ResponseDataInner": PhoneIdContactConversationIdGet200ResponseDataInner,
     "PhoneIdContactsGet200Response": PhoneIdContactsGet200Response,
     "PhoneIdContactsGet200ResponseDataInner": PhoneIdContactsGet200ResponseDataInner,
     "PhoneIdCreateGroupPost200Response": PhoneIdCreateGroupPost200Response,
@@ -227,6 +229,7 @@ let typeMap: {[index: string]: any} = {
     "WebhookLiveBody": WebhookLiveBody,
     "WebhookLiveBodyData": WebhookLiveBodyData,
     "WebhookStatusBody": WebhookStatusBody,
+    "WebhookUrl": WebhookUrl,
 }
 
 export class ObjectSerializer {
