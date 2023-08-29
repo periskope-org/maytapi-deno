@@ -380,7 +380,7 @@ export class ObservableGroupChatOperationsApi {
      * @param phoneId ID of the phone registered to the product, assigned by the database automatically. Can be obtained by calling ***GET listPhones***.
      * @param phoneIdGroupAddPostRequest Group conversation id and number is required for the actions.
      */
-    public phoneIdGroupAddPost(phoneId: string, phoneIdGroupAddPostRequest: PhoneIdGroupAddPostRequest, _options?: Configuration): Observable<PhoneIdSetProfileImagePost200Response> {
+    public phoneIdGroupAddPost(phoneId: string, phoneIdGroupAddPostRequest: PhoneIdGroupAddPostRequest, _options?: Configuration): Observable<JustSuccess> {
         const requestContextPromise = this.requestFactory.phoneIdGroupAddPost(phoneId, phoneIdGroupAddPostRequest, _options);
 
         // build promise chain
@@ -428,7 +428,7 @@ export class ObservableGroupChatOperationsApi {
      * @param phoneId ID of the phone registered to the product, assigned by the database automatically. Can be obtained by calling ***GET listPhones***.
      * @param phoneIdGroupAddPostRequest Group conversation id and number is required for the actions.
      */
-    public phoneIdGroupDemotePost(phoneId: string, phoneIdGroupAddPostRequest: PhoneIdGroupAddPostRequest, _options?: Configuration): Observable<PhoneIdSetProfileImagePost200Response> {
+    public phoneIdGroupDemotePost(phoneId: string, phoneIdGroupAddPostRequest: PhoneIdGroupAddPostRequest, _options?: Configuration): Observable<JustSuccess> {
         const requestContextPromise = this.requestFactory.phoneIdGroupDemotePost(phoneId, phoneIdGroupAddPostRequest, _options);
 
         // build promise chain
@@ -452,7 +452,7 @@ export class ObservableGroupChatOperationsApi {
      * @param phoneId ID of the phone registered to the product, assigned by the database automatically. Can be obtained by calling ***GET listPhones***.
      * @param phoneIdGroupAddPostRequest Group conversation id and number is required for the actions.
      */
-    public phoneIdGroupPromotePost(phoneId: string, phoneIdGroupAddPostRequest: PhoneIdGroupAddPostRequest, _options?: Configuration): Observable<PhoneIdSetProfileImagePost200Response> {
+    public phoneIdGroupPromotePost(phoneId: string, phoneIdGroupAddPostRequest: PhoneIdGroupAddPostRequest, _options?: Configuration): Observable<JustSuccess> {
         const requestContextPromise = this.requestFactory.phoneIdGroupPromotePost(phoneId, phoneIdGroupAddPostRequest, _options);
 
         // build promise chain
@@ -476,7 +476,7 @@ export class ObservableGroupChatOperationsApi {
      * @param phoneId ID of the phone registered to the product, assigned by the database automatically. Can be obtained by calling ***GET listPhones***.
      * @param phoneIdGroupAddPostRequest Group conversation id and number is required for the actions.
      */
-    public phoneIdGroupRemovePost(phoneId: string, phoneIdGroupAddPostRequest: PhoneIdGroupAddPostRequest, _options?: Configuration): Observable<PhoneIdSetProfileImagePost200Response> {
+    public phoneIdGroupRemovePost(phoneId: string, phoneIdGroupAddPostRequest: PhoneIdGroupAddPostRequest, _options?: Configuration): Observable<JustSuccess> {
         const requestContextPromise = this.requestFactory.phoneIdGroupRemovePost(phoneId, phoneIdGroupAddPostRequest, _options);
 
         // build promise chain

@@ -205,7 +205,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **phoneIdGroupAddPost**
-> PhoneIdSetProfileImagePost200Response phoneIdGroupAddPost(phoneIdGroupAddPostRequest)
+> JustSuccess phoneIdGroupAddPost(phoneIdGroupAddPostRequest)
 
 Add a participant to a group conversation.  To learn conversation_id you can use /getGroups endpoint.
 
@@ -245,7 +245,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**PhoneIdSetProfileImagePost200Response**
+**JustSuccess**
 
 ### Authorization
 
@@ -329,7 +329,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **phoneIdGroupDemotePost**
-> PhoneIdSetProfileImagePost200Response phoneIdGroupDemotePost(phoneIdGroupAddPostRequest)
+> JustSuccess phoneIdGroupDemotePost(phoneIdGroupAddPostRequest)
 
 Demote a participant in a group conversation.  To learn conversation_id you can use /getGroups endpoint.
 
@@ -369,7 +369,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**PhoneIdSetProfileImagePost200Response**
+**JustSuccess**
 
 ### Authorization
 
@@ -389,7 +389,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **phoneIdGroupPromotePost**
-> PhoneIdSetProfileImagePost200Response phoneIdGroupPromotePost(phoneIdGroupAddPostRequest)
+> JustSuccess phoneIdGroupPromotePost(phoneIdGroupAddPostRequest)
 
 Promote a participant in a group conversation.  To learn conversation_id you can use /getGroups endpoint.
 
@@ -429,7 +429,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**PhoneIdSetProfileImagePost200Response**
+**JustSuccess**
 
 ### Authorization
 
@@ -449,7 +449,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **phoneIdGroupRemovePost**
-> PhoneIdSetProfileImagePost200Response phoneIdGroupRemovePost(phoneIdGroupAddPostRequest)
+> JustSuccess phoneIdGroupRemovePost(phoneIdGroupAddPostRequest)
 
 Remove a participant from a group conversation.  To learn conversation_id you can use /getGroups endpoint.
 
@@ -489,7 +489,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**PhoneIdSetProfileImagePost200Response**
+**JustSuccess**
 
 ### Authorization
 

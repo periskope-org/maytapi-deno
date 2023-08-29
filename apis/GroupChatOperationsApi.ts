@@ -2,7 +2,7 @@
 import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi.ts';
 import {Configuration} from '../configuration.ts';
 import {RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http.ts';
-import {ObjectSerializer} from '../models/ObjectSerializer.ts';
+import {JustSuccess, ObjectSerializer} from '../models/ObjectSerializer.ts';
 import {ApiException} from './exception.ts';
 import {canConsumeForm, isCodeInRange} from '../util.ts';
 import {SecurityAuthentication} from '../auth/auth.ts';
@@ -679,22 +679,22 @@ export class GroupChatOperationsApiResponseProcessor {
      * @params response Response returned by the server for a request to phoneIdGroupAddPost
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async phoneIdGroupAddPost(response: ResponseContext): Promise<PhoneIdSetProfileImagePost200Response > {
+     public async phoneIdGroupAddPost(response: ResponseContext): Promise<JustSuccess > {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: PhoneIdSetProfileImagePost200Response = ObjectSerializer.deserialize(
+            const body: JustSuccess = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "PhoneIdSetProfileImagePost200Response", ""
-            ) as PhoneIdSetProfileImagePost200Response;
+                "JustSuccess", ""
+            ) as JustSuccess;
             return body;
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: PhoneIdSetProfileImagePost200Response = ObjectSerializer.deserialize(
+            const body: JustSuccess = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "PhoneIdSetProfileImagePost200Response", ""
-            ) as PhoneIdSetProfileImagePost200Response;
+                "JustSuccess", ""
+            ) as JustSuccess;
             return body;
         }
 
@@ -737,22 +737,22 @@ export class GroupChatOperationsApiResponseProcessor {
      * @params response Response returned by the server for a request to phoneIdGroupDemotePost
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async phoneIdGroupDemotePost(response: ResponseContext): Promise<PhoneIdSetProfileImagePost200Response > {
+     public async phoneIdGroupDemotePost(response: ResponseContext): Promise<JustSuccess > {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: PhoneIdSetProfileImagePost200Response = ObjectSerializer.deserialize(
+            const body: JustSuccess = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "PhoneIdSetProfileImagePost200Response", ""
-            ) as PhoneIdSetProfileImagePost200Response;
+                "JustSuccess", ""
+            ) as JustSuccess;
             return body;
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: PhoneIdSetProfileImagePost200Response = ObjectSerializer.deserialize(
+            const body: JustSuccess = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "PhoneIdSetProfileImagePost200Response", ""
-            ) as PhoneIdSetProfileImagePost200Response;
+                "JustSuccess", ""
+            ) as JustSuccess;
             return body;
         }
 
@@ -766,22 +766,22 @@ export class GroupChatOperationsApiResponseProcessor {
      * @params response Response returned by the server for a request to phoneIdGroupPromotePost
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async phoneIdGroupPromotePost(response: ResponseContext): Promise<PhoneIdSetProfileImagePost200Response > {
+     public async phoneIdGroupPromotePost(response: ResponseContext): Promise<JustSuccess > {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: PhoneIdSetProfileImagePost200Response = ObjectSerializer.deserialize(
+            const body: JustSuccess = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "PhoneIdSetProfileImagePost200Response", ""
-            ) as PhoneIdSetProfileImagePost200Response;
+                "JustSuccess", ""
+            ) as JustSuccess;
             return body;
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: PhoneIdSetProfileImagePost200Response = ObjectSerializer.deserialize(
+            const body: JustSuccess = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "PhoneIdSetProfileImagePost200Response", ""
-            ) as PhoneIdSetProfileImagePost200Response;
+                "JustSuccess", ""
+            ) as JustSuccess;
             return body;
         }
 
@@ -795,22 +795,22 @@ export class GroupChatOperationsApiResponseProcessor {
      * @params response Response returned by the server for a request to phoneIdGroupRemovePost
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async phoneIdGroupRemovePost(response: ResponseContext): Promise<PhoneIdSetProfileImagePost200Response > {
+     public async phoneIdGroupRemovePost(response: ResponseContext): Promise<JustSuccess > {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: PhoneIdSetProfileImagePost200Response = ObjectSerializer.deserialize(
+            const body: JustSuccess = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "PhoneIdSetProfileImagePost200Response", ""
-            ) as PhoneIdSetProfileImagePost200Response;
+                "JustSuccess", ""
+            ) as JustSuccess;
             return body;
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: PhoneIdSetProfileImagePost200Response = ObjectSerializer.deserialize(
+            const body: JustSuccess = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "PhoneIdSetProfileImagePost200Response", ""
-            ) as PhoneIdSetProfileImagePost200Response;
+                "JustSuccess", ""
+            ) as JustSuccess;
             return body;
         }
 

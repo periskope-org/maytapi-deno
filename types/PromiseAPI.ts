@@ -224,7 +224,7 @@ export class PromiseGroupChatOperationsApi {
      * @param phoneId ID of the phone registered to the product, assigned by the database automatically. Can be obtained by calling ***GET listPhones***.
      * @param phoneIdGroupAddPostRequest Group conversation id and number is required for the actions.
      */
-    public phoneIdGroupAddPost(phoneId: string, phoneIdGroupAddPostRequest: PhoneIdGroupAddPostRequest, _options?: Configuration): Promise<PhoneIdSetProfileImagePost200Response> {
+    public phoneIdGroupAddPost(phoneId: string, phoneIdGroupAddPostRequest: PhoneIdGroupAddPostRequest, _options?: Configuration): Promise<JustSuccess> {
         const result = this.api.phoneIdGroupAddPost(phoneId, phoneIdGroupAddPostRequest, _options);
         return result.toPromise();
     }
@@ -244,7 +244,7 @@ export class PromiseGroupChatOperationsApi {
      * @param phoneId ID of the phone registered to the product, assigned by the database automatically. Can be obtained by calling ***GET listPhones***.
      * @param phoneIdGroupAddPostRequest Group conversation id and number is required for the actions.
      */
-    public phoneIdGroupDemotePost(phoneId: string, phoneIdGroupAddPostRequest: PhoneIdGroupAddPostRequest, _options?: Configuration): Promise<PhoneIdSetProfileImagePost200Response> {
+    public phoneIdGroupDemotePost(phoneId: string, phoneIdGroupAddPostRequest: PhoneIdGroupAddPostRequest, _options?: Configuration): Promise<JustSuccess> {
         const result = this.api.phoneIdGroupDemotePost(phoneId, phoneIdGroupAddPostRequest, _options);
         return result.toPromise();
     }
@@ -254,7 +254,7 @@ export class PromiseGroupChatOperationsApi {
      * @param phoneId ID of the phone registered to the product, assigned by the database automatically. Can be obtained by calling ***GET listPhones***.
      * @param phoneIdGroupAddPostRequest Group conversation id and number is required for the actions.
      */
-    public phoneIdGroupPromotePost(phoneId: string, phoneIdGroupAddPostRequest: PhoneIdGroupAddPostRequest, _options?: Configuration): Promise<PhoneIdSetProfileImagePost200Response> {
+    public phoneIdGroupPromotePost(phoneId: string, phoneIdGroupAddPostRequest: PhoneIdGroupAddPostRequest, _options?: Configuration): Promise<JustSuccess> {
         const result = this.api.phoneIdGroupPromotePost(phoneId, phoneIdGroupAddPostRequest, _options);
         return result.toPromise();
     }
@@ -264,7 +264,7 @@ export class PromiseGroupChatOperationsApi {
      * @param phoneId ID of the phone registered to the product, assigned by the database automatically. Can be obtained by calling ***GET listPhones***.
      * @param phoneIdGroupAddPostRequest Group conversation id and number is required for the actions.
      */
-    public phoneIdGroupRemovePost(phoneId: string, phoneIdGroupAddPostRequest: PhoneIdGroupAddPostRequest, _options?: Configuration): Promise<PhoneIdSetProfileImagePost200Response> {
+    public phoneIdGroupRemovePost(phoneId: string, phoneIdGroupAddPostRequest: PhoneIdGroupAddPostRequest, _options?: Configuration): Promise<JustSuccess> {
         const result = this.api.phoneIdGroupRemovePost(phoneId, phoneIdGroupAddPostRequest, _options);
         return result.toPromise();
     }

@@ -414,7 +414,7 @@ export class ObjectGroupChatOperationsApi {
      * Add a participant to a group conversation.  To learn conversation_id you can use /getGroups endpoint.
      * @param param the request object
      */
-    public phoneIdGroupAddPost(param: GroupChatOperationsApiPhoneIdGroupAddPostRequest, options?: Configuration): Promise<PhoneIdSetProfileImagePost200Response> {
+    public phoneIdGroupAddPost(param: GroupChatOperationsApiPhoneIdGroupAddPostRequest, options?: Configuration): Promise<JustSuccess> {
         return this.api.phoneIdGroupAddPost(param.phoneId, param.phoneIdGroupAddPostRequest,  options).toPromise();
     }
 
@@ -430,7 +430,7 @@ export class ObjectGroupChatOperationsApi {
      * Demote a participant in a group conversation.  To learn conversation_id you can use /getGroups endpoint.
      * @param param the request object
      */
-    public phoneIdGroupDemotePost(param: GroupChatOperationsApiPhoneIdGroupDemotePostRequest, options?: Configuration): Promise<PhoneIdSetProfileImagePost200Response> {
+    public phoneIdGroupDemotePost(param: GroupChatOperationsApiPhoneIdGroupDemotePostRequest, options?: Configuration): Promise<JustSuccess> {
         return this.api.phoneIdGroupDemotePost(param.phoneId, param.phoneIdGroupAddPostRequest,  options).toPromise();
     }
 
@@ -438,7 +438,7 @@ export class ObjectGroupChatOperationsApi {
      * Promote a participant in a group conversation.  To learn conversation_id you can use /getGroups endpoint.
      * @param param the request object
      */
-    public phoneIdGroupPromotePost(param: GroupChatOperationsApiPhoneIdGroupPromotePostRequest, options?: Configuration): Promise<PhoneIdSetProfileImagePost200Response> {
+    public phoneIdGroupPromotePost(param: GroupChatOperationsApiPhoneIdGroupPromotePostRequest, options?: Configuration): Promise<JustSuccess> {
         return this.api.phoneIdGroupPromotePost(param.phoneId, param.phoneIdGroupAddPostRequest,  options).toPromise();
     }
 
@@ -446,7 +446,7 @@ export class ObjectGroupChatOperationsApi {
      * Remove a participant from a group conversation.  To learn conversation_id you can use /getGroups endpoint.
      * @param param the request object
      */
-    public phoneIdGroupRemovePost(param: GroupChatOperationsApiPhoneIdGroupRemovePostRequest, options?: Configuration): Promise<PhoneIdSetProfileImagePost200Response> {
+    public phoneIdGroupRemovePost(param: GroupChatOperationsApiPhoneIdGroupRemovePostRequest, options?: Configuration): Promise<JustSuccess> {
         return this.api.phoneIdGroupRemovePost(param.phoneId, param.phoneIdGroupAddPostRequest,  options).toPromise();
     }
 
