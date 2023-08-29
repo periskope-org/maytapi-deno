@@ -20,6 +20,7 @@ export class GroupData {
     'admins'?: Array<string>;
     'image'?: string;
     'config'?: GroupDataConfig;
+    'invite'?: string;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -59,7 +60,13 @@ export class GroupData {
             "baseName": "config",
             "type": "GroupDataConfig",
             "format": ""
-        }    ];
+        },
+        {
+            "name": "invite",
+            "baseName": "invite",
+            "type": "string",
+            "format": ""
+        } ];
 
     static getAttributeTypeMap() {
         return GroupData.attributeTypeMap;
