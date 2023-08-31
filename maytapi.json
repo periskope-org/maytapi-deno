@@ -1898,13 +1898,14 @@
             "example": "905301234567"
           },
           "message": {
-            "type": "string",
-            "example": "Message Text"
+            "oneOf": [
+              { "$ref": "#/components/schemas/text-message-data" },
+              { "$ref": "#/components/schemas/vcard-data" }
+            ]
           },
           "type": {
             "type": "string",
-            "enum": ["text", "media"],
-            "example": "text"
+            "enum": ["text", "vcard"]
           }
         }
       },
@@ -2198,6 +2199,10 @@
             "example": "BEGIN:VCARD\nVERSION:3.0\nN:.......END:VCARD"
           }
         }
+      },
+      "text-message-data": {
+        "type": "string",
+        "example": "Message text"
       },
       "product-data": {
         "type": "object",

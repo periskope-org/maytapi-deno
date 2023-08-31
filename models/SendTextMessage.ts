@@ -10,13 +10,12 @@
  * Do not edit the class manually.
  */
 
-import { SendMessageBodyMessage } from '../models/SendMessageBodyMessage.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class SendMessageBody {
+export class SendTextMessage {
     'toNumber'?: string;
-    'message'?: SendMessageBodyMessage;
-    'type'?: SendMessageBodyTypeEnum;
+    'message'?: string;
+    'type'?: SendTextMessageTypeEnum;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -30,18 +29,18 @@ export class SendMessageBody {
         {
             "name": "message",
             "baseName": "message",
-            "type": "SendMessageBodyMessage",
+            "type": "string",
             "format": ""
         },
         {
             "name": "type",
             "baseName": "type",
-            "type": "SendMessageBodyTypeEnum",
+            "type": "SendTextMessageTypeEnum",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return SendMessageBody.attributeTypeMap;
+        return SendTextMessage.attributeTypeMap;
     }
 
     public constructor() {
@@ -49,5 +48,5 @@ export class SendMessageBody {
 }
 
 
-export type SendMessageBodyTypeEnum = "text" | "vcard" ;
+export type SendTextMessageTypeEnum = "text" ;
 

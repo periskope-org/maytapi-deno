@@ -48,6 +48,7 @@ export * from '../models/ProductData.ts';
 export * from '../models/QueuePhone.ts';
 export * from '../models/QueuesGet200Response.ts';
 export * from '../models/SendMessageBody.ts';
+export * from '../models/SendMessageBodyMessage.ts';
 export * from '../models/SendMessageResponse.ts';
 export * from '../models/SendMessageResponseData.ts';
 export * from '../models/Status.ts';
@@ -113,6 +114,7 @@ import { ProductData } from '../models/ProductData.ts';
 import { QueuePhone    } from '../models/QueuePhone.ts';
 import { QueuesGet200Response } from '../models/QueuesGet200Response.ts';
 import { SendMessageBody  , SendMessageBodyTypeEnum   } from '../models/SendMessageBody.ts';
+import { SendMessageBodyMessage } from '../models/SendMessageBodyMessage.ts';
 import { SendMessageResponse } from '../models/SendMessageResponse.ts';
 import { SendMessageResponseData } from '../models/SendMessageResponseData.ts';
 import { Status } from '../models/Status.ts';
@@ -217,6 +219,7 @@ let typeMap: {[index: string]: any} = {
     "QueuePhone": QueuePhone,
     "QueuesGet200Response": QueuesGet200Response,
     "SendMessageBody": SendMessageBody,
+    "SendMessageBodyMessage": SendMessageBodyMessage,
     "SendMessageResponse": SendMessageResponse,
     "SendMessageResponseData": SendMessageResponseData,
     "Status": Status,

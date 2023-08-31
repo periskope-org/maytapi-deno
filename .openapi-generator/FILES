@@ -73,6 +73,7 @@ models/ProductData.ts
 models/QueuePhone.ts
 models/QueuesGet200Response.ts
 models/SendMessageBody.ts
+models/SendMessageBodyMessage.ts
 models/SendMessageResponse.ts
 models/SendMessageResponseData.ts
 models/Status.ts

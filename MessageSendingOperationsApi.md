@@ -28,7 +28,7 @@ let body:.MessageSendingOperationsApiPhoneIdSendMessagePostRequest = {
   // SendMessageBody | - to_number should start with country code without any special characters. - For group conversations you need to pass group.id to to_number. Ex: **\"905301234567-1574073754@g.us\"** - If the message to be sent is just a text message, it can be put directly to ***message*** parameter in the body  - **For media and group message examples please look at \'Request body examples\' section below.** - For Product messages you need to create your products from WhatsApp Business Phone app and find your product id with **_/catalog** endpoints.
   sendMessageBody: {
     toNumber: "905301234567",
-    message: "Message Text",
+    message: null,
     type: "text",
   },
 };
