@@ -66,7 +66,6 @@ models/PhoneIdQueueGet200Response.ts
 models/PhoneIdQueueGet200ResponseStats.ts
 models/PhoneIdRedeployGet200Response.ts
 models/PhoneIdSendMessagePostRequest.ts
-models/PhoneIdSendMessagePostRequestMessage.ts
 models/PhoneIdSetProfileImagePostRequest.ts
 models/PhoneObj.ts
 models/PhoneObjWithPid.ts

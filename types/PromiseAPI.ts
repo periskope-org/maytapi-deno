@@ -44,7 +44,6 @@ import { PhoneIdQueueGet200Response } from '../models/PhoneIdQueueGet200Response
 import { PhoneIdQueueGet200ResponseStats } from '../models/PhoneIdQueueGet200ResponseStats.ts';
 import { PhoneIdRedeployGet200Response } from '../models/PhoneIdRedeployGet200Response.ts';
 import { PhoneIdSendMessagePostRequest } from '../models/PhoneIdSendMessagePostRequest.ts';
-import { PhoneIdSendMessagePostRequestMessage } from '../models/PhoneIdSendMessagePostRequestMessage.ts';
 import { PhoneIdSetProfileImagePostRequest } from '../models/PhoneIdSetProfileImagePostRequest.ts';
 import { PhoneObj } from '../models/PhoneObj.ts';
 import { PhoneObjWithPid } from '../models/PhoneObjWithPid.ts';

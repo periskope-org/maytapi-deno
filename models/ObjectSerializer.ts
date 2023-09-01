@@ -41,7 +41,6 @@ export * from '../models/PhoneIdQueueGet200Response.ts';
 export * from '../models/PhoneIdQueueGet200ResponseStats.ts';
 export * from '../models/PhoneIdRedeployGet200Response.ts';
 export * from '../models/PhoneIdSendMessagePostRequest.ts';
-export * from '../models/PhoneIdSendMessagePostRequestMessage.ts';
 export * from '../models/PhoneIdSetProfileImagePostRequest.ts';
 export * from '../models/PhoneObj.ts';
 export * from '../models/PhoneObjWithPid.ts';
@@ -106,7 +105,6 @@ import { PhoneIdQueueGet200Response } from '../models/PhoneIdQueueGet200Response
 import { PhoneIdQueueGet200ResponseStats } from '../models/PhoneIdQueueGet200ResponseStats.ts';
 import { PhoneIdRedeployGet200Response } from '../models/PhoneIdRedeployGet200Response.ts';
 import { PhoneIdSendMessagePostRequest , PhoneIdSendMessagePostRequestTypeEnum    } from '../models/PhoneIdSendMessagePostRequest.ts';
-import { PhoneIdSendMessagePostRequestMessage } from '../models/PhoneIdSendMessagePostRequestMessage.ts';
 import { PhoneIdSetProfileImagePostRequest } from '../models/PhoneIdSetProfileImagePostRequest.ts';
 import { PhoneObj    } from '../models/PhoneObj.ts';
 import { PhoneObjWithPid } from '../models/PhoneObjWithPid.ts';
@@ -210,7 +208,6 @@ let typeMap: {[index: string]: any} = {
     "PhoneIdQueueGet200ResponseStats": PhoneIdQueueGet200ResponseStats,
     "PhoneIdRedeployGet200Response": PhoneIdRedeployGet200Response,
     "PhoneIdSendMessagePostRequest": PhoneIdSendMessagePostRequest,
-    "PhoneIdSendMessagePostRequestMessage": PhoneIdSendMessagePostRequestMessage,
     "PhoneIdSetProfileImagePostRequest": PhoneIdSetProfileImagePostRequest,
     "PhoneObj": PhoneObj,
     "PhoneObjWithPid": PhoneObjWithPid,

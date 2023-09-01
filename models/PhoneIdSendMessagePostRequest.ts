@@ -10,44 +10,46 @@
  * Do not edit the class manually.
  */
 
-import { PhoneIdSendMessagePostRequestMessage } from '../models/PhoneIdSendMessagePostRequestMessage.ts';
-import { HttpFile } from '../http/http.ts';
+import { HttpFile } from "../http/http.ts";
 
 export class PhoneIdSendMessagePostRequest {
-    'toNumber'?: string;
-    'type'?: PhoneIdSendMessagePostRequestTypeEnum;
-    'message'?: PhoneIdSendMessagePostRequestMessage<any>;
+  "toNumber"?: string;
+  "type"?: PhoneIdSendMessagePostRequestTypeEnum;
+  "message"?: any;
 
-    static readonly discriminator: string | undefined = undefined;
+  static readonly discriminator: string | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
-        {
-            "name": "toNumber",
-            "baseName": "to_number",
-            "type": "string",
-            "format": ""
-        },
-        {
-            "name": "type",
-            "baseName": "type",
-            "type": "PhoneIdSendMessagePostRequestTypeEnum",
-            "format": ""
-        },
-        {
-            "name": "message",
-            "baseName": "message",
-            "type": "PhoneIdSendMessagePostRequestMessage",
-            "format": ""
-        }    ];
+  static readonly attributeTypeMap: Array<{
+    name: string;
+    baseName: string;
+    type: string;
+    format: string;
+  }> = [
+    {
+      name: "toNumber",
+      baseName: "to_number",
+      type: "string",
+      format: "",
+    },
+    {
+      name: "type",
+      baseName: "type",
+      type: "PhoneIdSendMessagePostRequestTypeEnum",
+      format: "",
+    },
+    {
+      name: "message",
+      baseName: "message",
+      type: "any",
+      format: "",
+    },
+  ];
 
-    static getAttributeTypeMap() {
-        return PhoneIdSendMessagePostRequest.attributeTypeMap;
-    }
+  static getAttributeTypeMap() {
+    return PhoneIdSendMessagePostRequest.attributeTypeMap;
+  }
 
-    public constructor() {
-    }
+  public constructor() {}
 }
 
-
-export type PhoneIdSendMessagePostRequestTypeEnum = "text" | "media" | "vcard" ;
-
+export type PhoneIdSendMessagePostRequestTypeEnum = "text" | "media" | "vcard";
