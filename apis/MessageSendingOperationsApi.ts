@@ -8,7 +8,7 @@ import {canConsumeForm, isCodeInRange} from '../util.ts';
 import {SecurityAuthentication} from '../auth/auth.ts';
 
 
-import { SendMessageBody } from '../models/SendMessageBody.ts';
+import { PhoneIdSendMessagePostRequest } from '../models/PhoneIdSendMessagePostRequest.ts';
 import { SendMessageResponse } from '../models/SendMessageResponse.ts';
 
 /**
@@ -19,9 +19,9 @@ export class MessageSendingOperationsApiRequestFactory extends BaseAPIRequestFac
     /**
      * Used for sending message to a chat. A text, image, video, sound and document can be sent.  **This endpoint adds messages to your phone\'s sending queue. If your messages not delivering to phones please check your instance logs, queue endpoint or connection (/screen).**  **Curl example:** (You need to change product_id, phone_id and token[x-maytapi-key] with your product\'s values...) ```bash curl -X POST \\ \'https://api.maytapi.com/api/dc01968f-####-####-####-7cfcf51aa423/12/sendMessage\' \\   -H \'Content-Type: application/json\' \\   -H \'x-maytapi-key: b267697c-####-####-####-2435e812efc1\' \\   -d \'{  \"message\": \"http://placehold.it/180\",   \"text\": \"\",   \"to_number\": \"+905301111111\",   \"type\": \"media\" }\'
      * @param phoneId ID of the phone registered to the product, assigned by the database automatically. Can be obtained by calling ***GET listPhones***.
-     * @param sendMessageBody - to_number should start with country code without any special characters. - For group conversations you need to pass group.id to to_number. Ex: **\&quot;905301234567-1574073754@g.us\&quot;** - If the message to be sent is just a text message, it can be put directly to ***message*** parameter in the body  - **For media and group message examples please look at \&#39;Request body examples\&#39; section below.** - For Product messages you need to create your products from WhatsApp Business Phone app and find your product id with **_/catalog** endpoints.
+     * @param phoneIdSendMessagePostRequest - to_number should start with country code without any special characters. - For group conversations you need to pass group.id to to_number. Ex: **\&quot;905301234567-1574073754@g.us\&quot;** - If the message to be sent is just a text message, it can be put directly to ***message*** parameter in the body  - **For media and group message examples please look at \&#39;Request body examples\&#39; section below.** - For Product messages you need to create your products from WhatsApp Business Phone app and find your product id with **_/catalog** endpoints.
      */
-    public async phoneIdSendMessagePost(phoneId: string, sendMessageBody: SendMessageBody, _options?: Configuration): Promise<RequestContext> {
+    public async phoneIdSendMessagePost(phoneId: string, phoneIdSendMessagePostRequest: PhoneIdSendMessagePostRequest, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'phoneId' is not null or undefined
@@ -30,9 +30,9 @@ export class MessageSendingOperationsApiRequestFactory extends BaseAPIRequestFac
         }
 
 
-        // verify required parameter 'sendMessageBody' is not null or undefined
-        if (sendMessageBody === null || sendMessageBody === undefined) {
-            throw new RequiredError("MessageSendingOperationsApi", "phoneIdSendMessagePost", "sendMessageBody");
+        // verify required parameter 'phoneIdSendMessagePostRequest' is not null or undefined
+        if (phoneIdSendMessagePostRequest === null || phoneIdSendMessagePostRequest === undefined) {
+            throw new RequiredError("MessageSendingOperationsApi", "phoneIdSendMessagePost", "phoneIdSendMessagePostRequest");
         }
 
 
@@ -51,7 +51,7 @@ export class MessageSendingOperationsApiRequestFactory extends BaseAPIRequestFac
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(sendMessageBody, "SendMessageBody", ""),
+            ObjectSerializer.serialize(phoneIdSendMessagePostRequest, "PhoneIdSendMessagePostRequest", ""),
             contentType
         );
         requestContext.setBody(serializedBody);

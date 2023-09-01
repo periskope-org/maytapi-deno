@@ -44,14 +44,14 @@ import { PhoneIdPurgeQueueGet200Response } from '../models/PhoneIdPurgeQueueGet2
 import { PhoneIdQueueGet200Response } from '../models/PhoneIdQueueGet200Response.ts';
 import { PhoneIdQueueGet200ResponseStats } from '../models/PhoneIdQueueGet200ResponseStats.ts';
 import { PhoneIdRedeployGet200Response } from '../models/PhoneIdRedeployGet200Response.ts';
-import { PhoneIdSetProfileImagePost200Response } from '../models/PhoneIdSetProfileImagePost200Response.ts';
+import { PhoneIdSendMessagePostRequest } from '../models/PhoneIdSendMessagePostRequest.ts';
+import { PhoneIdSendMessagePostRequestMessage } from '../models/PhoneIdSendMessagePostRequestMessage.ts';
 import { PhoneIdSetProfileImagePostRequest } from '../models/PhoneIdSetProfileImagePostRequest.ts';
 import { PhoneObj } from '../models/PhoneObj.ts';
 import { PhoneObjWithPid } from '../models/PhoneObjWithPid.ts';
 import { ProductData } from '../models/ProductData.ts';
 import { QueuePhone } from '../models/QueuePhone.ts';
 import { QueuesGet200Response } from '../models/QueuesGet200Response.ts';
-import { SendMessageBody } from '../models/SendMessageBody.ts';
 import { SendMessageResponse } from '../models/SendMessageResponse.ts';
 import { SendMessageResponseData } from '../models/SendMessageResponseData.ts';
 import { Status } from '../models/Status.ts';
@@ -524,7 +524,7 @@ export class ObservableGroupChatOperationsApi {
      * @param phoneId ID of the phone registered to the product, assigned by the database automatically. Can be obtained by calling ***GET listPhones***.
      * @param phoneIdSetProfileImagePostRequest Group conversation id and number is required for the actions.
      */
-    public phoneIdSetProfileImagePost(phoneId: string, phoneIdSetProfileImagePostRequest: PhoneIdSetProfileImagePostRequest, _options?: Configuration): Observable<PhoneIdSetProfileImagePost200Response> {
+    public phoneIdSetProfileImagePost(phoneId: string, phoneIdSetProfileImagePostRequest: PhoneIdSetProfileImagePostRequest, _options?: Configuration): Observable<JustSuccess> {
         const requestContextPromise = this.requestFactory.phoneIdSetProfileImagePost(phoneId, phoneIdSetProfileImagePostRequest, _options);
 
         // build promise chain
@@ -564,10 +564,10 @@ export class ObservableMessageSendingOperationsApi {
     /**
      * Used for sending message to a chat. A text, image, video, sound and document can be sent.  **This endpoint adds messages to your phone\'s sending queue. If your messages not delivering to phones please check your instance logs, queue endpoint or connection (/screen).**  **Curl example:** (You need to change product_id, phone_id and token[x-maytapi-key] with your product\'s values...) ```bash curl -X POST \\ \'https://api.maytapi.com/api/dc01968f-####-####-####-7cfcf51aa423/12/sendMessage\' \\   -H \'Content-Type: application/json\' \\   -H \'x-maytapi-key: b267697c-####-####-####-2435e812efc1\' \\   -d \'{  \"message\": \"http://placehold.it/180\",   \"text\": \"\",   \"to_number\": \"+905301111111\",   \"type\": \"media\" }\'
      * @param phoneId ID of the phone registered to the product, assigned by the database automatically. Can be obtained by calling ***GET listPhones***.
-     * @param sendMessageBody - to_number should start with country code without any special characters. - For group conversations you need to pass group.id to to_number. Ex: **\&quot;905301234567-1574073754@g.us\&quot;** - If the message to be sent is just a text message, it can be put directly to ***message*** parameter in the body  - **For media and group message examples please look at \&#39;Request body examples\&#39; section below.** - For Product messages you need to create your products from WhatsApp Business Phone app and find your product id with **_/catalog** endpoints.
+     * @param phoneIdSendMessagePostRequest - to_number should start with country code without any special characters. - For group conversations you need to pass group.id to to_number. Ex: **\&quot;905301234567-1574073754@g.us\&quot;** - If the message to be sent is just a text message, it can be put directly to ***message*** parameter in the body  - **For media and group message examples please look at \&#39;Request body examples\&#39; section below.** - For Product messages you need to create your products from WhatsApp Business Phone app and find your product id with **_/catalog** endpoints.
      */
-    public phoneIdSendMessagePost(phoneId: string, sendMessageBody: SendMessageBody, _options?: Configuration): Observable<SendMessageResponse> {
-        const requestContextPromise = this.requestFactory.phoneIdSendMessagePost(phoneId, sendMessageBody, _options);
+    public phoneIdSendMessagePost(phoneId: string, phoneIdSendMessagePostRequest: PhoneIdSendMessagePostRequest, _options?: Configuration): Observable<SendMessageResponse> {
+        const requestContextPromise = this.requestFactory.phoneIdSendMessagePost(phoneId, phoneIdSendMessagePostRequest, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);

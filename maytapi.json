@@ -737,7 +737,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/sendMessageBody"
+                "type": "object",
+                "properties": {
+                  "to_number": { "type": "string" },
+                  "type": {
+                    "type": "string",
+                    "enum": ["text", "media", "vcard"]
+                  },
+                  "message": {
+                    "oneOf": [{ "type": "string" }, { "type": "object" }]
+                  }
+                }
               },
               "examples": {
                 "Text Message": {
@@ -1171,10 +1181,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": { "type": "boolean" }
-                  }
+                  "$ref": "#/components/schemas/justSuccess"
                 }
               }
             }
@@ -1282,10 +1289,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": { "type": "boolean" }
-                  }
+                  "$ref": "#/components/schemas/justSuccess"
                 }
               }
             }
@@ -1322,10 +1326,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": { "type": "boolean" }
-                  }
+                  "$ref": "#/components/schemas/justSuccess"
                 }
               }
             }
@@ -1362,10 +1363,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": { "type": "boolean" }
-                  }
+                  "$ref": "#/components/schemas/justSuccess"
                 }
               }
             }
@@ -1402,10 +1400,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": { "type": "boolean" }
-                  }
+                  "$ref": "#/components/schemas/justSuccess"
                 }
               }
             }
@@ -1890,25 +1885,6 @@
           }
         }
       },
-      "sendMessageBody": {
-        "type": "object",
-        "properties": {
-          "to_number": {
-            "type": "string",
-            "example": "905301234567"
-          },
-          "message": {
-            "oneOf": [
-              { "$ref": "#/components/schemas/text-message-data" },
-              { "$ref": "#/components/schemas/vcard-data" }
-            ]
-          },
-          "type": {
-            "type": "string",
-            "enum": ["text", "vcard"]
-          }
-        }
-      },
       "phoneObj": {
         "type": "object",
         "properties": {
@@ -2012,6 +1988,10 @@
                 "example": false
               }
             }
+          },
+          "invite": {
+            "type": "string",
+            "example": "Group Title"
           }
         }
       },
@@ -2199,10 +2179,6 @@
             "example": "BEGIN:VCARD\nVERSION:3.0\nN:.......END:VCARD"
           }
         }
-      },
-      "text-message-data": {
-        "type": "string",
-        "example": "Message text"
       },
       "product-data": {
         "type": "object",

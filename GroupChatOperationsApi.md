@@ -568,7 +568,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **phoneIdSetProfileImagePost**
-> PhoneIdSetProfileImagePost200Response phoneIdSetProfileImagePost(phoneIdSetProfileImagePostRequest)
+> JustSuccess phoneIdSetProfileImagePost(phoneIdSetProfileImagePostRequest)
 
 Change profile picture of a group conversation or yourself.  To change profile picture of yourself you need to leave the conversation_id blank.  You need to use square images for better view. We suggest 512x512 images.
 
@@ -608,7 +608,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**PhoneIdSetProfileImagePost200Response**
+**JustSuccess**
 
 ### Authorization
 

@@ -2,12 +2,13 @@
 import {BaseAPIRequestFactory, RequiredError, COLLECTION_FORMATS} from './baseapi.ts';
 import {Configuration} from '../configuration.ts';
 import {RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http.ts';
-import {JustSuccess, ObjectSerializer} from '../models/ObjectSerializer.ts';
+import {ObjectSerializer} from '../models/ObjectSerializer.ts';
 import {ApiException} from './exception.ts';
 import {canConsumeForm, isCodeInRange} from '../util.ts';
 import {SecurityAuthentication} from '../auth/auth.ts';
 
 
+import { JustSuccess } from '../models/JustSuccess.ts';
 import { PhoneIdCreateGroupPost200Response } from '../models/PhoneIdCreateGroupPost200Response.ts';
 import { PhoneIdCreateGroupPostRequest } from '../models/PhoneIdCreateGroupPostRequest.ts';
 import { PhoneIdGetGroupsGet200Response } from '../models/PhoneIdGetGroupsGet200Response.ts';
@@ -16,7 +17,6 @@ import { PhoneIdGroupConfigPost200Response } from '../models/PhoneIdGroupConfigP
 import { PhoneIdGroupConfigPostRequest } from '../models/PhoneIdGroupConfigPostRequest.ts';
 import { PhoneIdLeaveGroupPost200Response } from '../models/PhoneIdLeaveGroupPost200Response.ts';
 import { PhoneIdLeaveGroupPostRequest } from '../models/PhoneIdLeaveGroupPostRequest.ts';
-import { PhoneIdSetProfileImagePost200Response } from '../models/PhoneIdSetProfileImagePost200Response.ts';
 import { PhoneIdSetProfileImagePostRequest } from '../models/PhoneIdSetProfileImagePostRequest.ts';
 
 /**
@@ -853,22 +853,22 @@ export class GroupChatOperationsApiResponseProcessor {
      * @params response Response returned by the server for a request to phoneIdSetProfileImagePost
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async phoneIdSetProfileImagePost(response: ResponseContext): Promise<PhoneIdSetProfileImagePost200Response > {
+     public async phoneIdSetProfileImagePost(response: ResponseContext): Promise<JustSuccess > {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: PhoneIdSetProfileImagePost200Response = ObjectSerializer.deserialize(
+            const body: JustSuccess = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "PhoneIdSetProfileImagePost200Response", ""
-            ) as PhoneIdSetProfileImagePost200Response;
+                "JustSuccess", ""
+            ) as JustSuccess;
             return body;
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: PhoneIdSetProfileImagePost200Response = ObjectSerializer.deserialize(
+            const body: JustSuccess = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "PhoneIdSetProfileImagePost200Response", ""
-            ) as PhoneIdSetProfileImagePost200Response;
+                "JustSuccess", ""
+            ) as JustSuccess;
             return body;
         }
 

@@ -40,15 +40,14 @@ export * from '../models/PhoneIdPurgeQueueGet200Response.ts';
 export * from '../models/PhoneIdQueueGet200Response.ts';
 export * from '../models/PhoneIdQueueGet200ResponseStats.ts';
 export * from '../models/PhoneIdRedeployGet200Response.ts';
-export * from '../models/PhoneIdSetProfileImagePost200Response.ts';
+export * from '../models/PhoneIdSendMessagePostRequest.ts';
+export * from '../models/PhoneIdSendMessagePostRequestMessage.ts';
 export * from '../models/PhoneIdSetProfileImagePostRequest.ts';
 export * from '../models/PhoneObj.ts';
 export * from '../models/PhoneObjWithPid.ts';
 export * from '../models/ProductData.ts';
 export * from '../models/QueuePhone.ts';
 export * from '../models/QueuesGet200Response.ts';
-export * from '../models/SendMessageBody.ts';
-export * from '../models/SendMessageBodyMessage.ts';
 export * from '../models/SendMessageResponse.ts';
 export * from '../models/SendMessageResponseData.ts';
 export * from '../models/Status.ts';
@@ -106,15 +105,14 @@ import { PhoneIdPurgeQueueGet200Response } from '../models/PhoneIdPurgeQueueGet2
 import { PhoneIdQueueGet200Response } from '../models/PhoneIdQueueGet200Response.ts';
 import { PhoneIdQueueGet200ResponseStats } from '../models/PhoneIdQueueGet200ResponseStats.ts';
 import { PhoneIdRedeployGet200Response } from '../models/PhoneIdRedeployGet200Response.ts';
-import { PhoneIdSetProfileImagePost200Response } from '../models/PhoneIdSetProfileImagePost200Response.ts';
+import { PhoneIdSendMessagePostRequest , PhoneIdSendMessagePostRequestTypeEnum    } from '../models/PhoneIdSendMessagePostRequest.ts';
+import { PhoneIdSendMessagePostRequestMessage } from '../models/PhoneIdSendMessagePostRequestMessage.ts';
 import { PhoneIdSetProfileImagePostRequest } from '../models/PhoneIdSetProfileImagePostRequest.ts';
 import { PhoneObj    } from '../models/PhoneObj.ts';
 import { PhoneObjWithPid } from '../models/PhoneObjWithPid.ts';
 import { ProductData } from '../models/ProductData.ts';
 import { QueuePhone    } from '../models/QueuePhone.ts';
 import { QueuesGet200Response } from '../models/QueuesGet200Response.ts';
-import { SendMessageBody  , SendMessageBodyTypeEnum   } from '../models/SendMessageBody.ts';
-import { SendMessageBodyMessage } from '../models/SendMessageBodyMessage.ts';
 import { SendMessageResponse } from '../models/SendMessageResponse.ts';
 import { SendMessageResponseData } from '../models/SendMessageResponseData.ts';
 import { Status } from '../models/Status.ts';
@@ -161,7 +159,7 @@ let enumsMap: Set<string> = new Set<string>([
     "PhoneIdContactsGet200ResponseDataInnerTypeEnum",
     "PhoneIdGroupConfigPostRequestConfigEditEnum",
     "PhoneIdGroupConfigPostRequestConfigSendEnum",
-    "SendMessageBodyTypeEnum",
+    "PhoneIdSendMessagePostRequestTypeEnum",
     "StatusEnum",
     "WebhookAckDataAckTypeEnum",
     "WebhookAckDataAckCodeEnum",
@@ -211,15 +209,14 @@ let typeMap: {[index: string]: any} = {
     "PhoneIdQueueGet200Response": PhoneIdQueueGet200Response,
     "PhoneIdQueueGet200ResponseStats": PhoneIdQueueGet200ResponseStats,
     "PhoneIdRedeployGet200Response": PhoneIdRedeployGet200Response,
-    "PhoneIdSetProfileImagePost200Response": PhoneIdSetProfileImagePost200Response,
+    "PhoneIdSendMessagePostRequest": PhoneIdSendMessagePostRequest,
+    "PhoneIdSendMessagePostRequestMessage": PhoneIdSendMessagePostRequestMessage,
     "PhoneIdSetProfileImagePostRequest": PhoneIdSetProfileImagePostRequest,
     "PhoneObj": PhoneObj,
     "PhoneObjWithPid": PhoneObjWithPid,
     "ProductData": ProductData,
     "QueuePhone": QueuePhone,
     "QueuesGet200Response": QueuesGet200Response,
-    "SendMessageBody": SendMessageBody,
-    "SendMessageBodyMessage": SendMessageBodyMessage,
     "SendMessageResponse": SendMessageResponse,
     "SendMessageResponseData": SendMessageResponseData,
     "Status": Status,

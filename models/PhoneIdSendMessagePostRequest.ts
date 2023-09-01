@@ -10,69 +10,44 @@
  * Do not edit the class manually.
  */
 
-import { GroupDataConfig } from '../models/GroupDataConfig.ts';
+import { PhoneIdSendMessagePostRequestMessage } from '../models/PhoneIdSendMessagePostRequestMessage.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class GroupData {
-    'id'?: string;
-    'name'?: string;
-    'participants'?: Array<string>;
-    'admins'?: Array<string>;
-    'image'?: string;
-    'config'?: GroupDataConfig;
-    'invite'?: string;
+export class PhoneIdSendMessagePostRequest {
+    'toNumber'?: string;
+    'type'?: PhoneIdSendMessagePostRequestTypeEnum;
+    'message'?: PhoneIdSendMessagePostRequestMessage;
 
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "id",
-            "baseName": "id",
+            "name": "toNumber",
+            "baseName": "to_number",
             "type": "string",
             "format": ""
         },
         {
-            "name": "name",
-            "baseName": "name",
-            "type": "string",
+            "name": "type",
+            "baseName": "type",
+            "type": "PhoneIdSendMessagePostRequestTypeEnum",
             "format": ""
         },
         {
-            "name": "participants",
-            "baseName": "participants",
-            "type": "Array<string>",
-            "format": ""
-        },
-        {
-            "name": "admins",
-            "baseName": "admins",
-            "type": "Array<string>",
-            "format": ""
-        },
-        {
-            "name": "image",
-            "baseName": "image",
-            "type": "string",
-            "format": ""
-        },
-        {
-            "name": "config",
-            "baseName": "config",
-            "type": "GroupDataConfig",
-            "format": ""
-        },
-        {
-            "name": "invite",
-            "baseName": "invite",
-            "type": "string",
+            "name": "message",
+            "baseName": "message",
+            "type": "PhoneIdSendMessagePostRequestMessage",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return GroupData.attributeTypeMap;
+        return PhoneIdSendMessagePostRequest.attributeTypeMap;
     }
 
     public constructor() {
     }
 }
+
+
+export type PhoneIdSendMessagePostRequestTypeEnum = "text" | "media" | "vcard" ;
 

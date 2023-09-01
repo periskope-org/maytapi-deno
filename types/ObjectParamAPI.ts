@@ -43,14 +43,14 @@ import { PhoneIdPurgeQueueGet200Response } from '../models/PhoneIdPurgeQueueGet2
 import { PhoneIdQueueGet200Response } from '../models/PhoneIdQueueGet200Response.ts';
 import { PhoneIdQueueGet200ResponseStats } from '../models/PhoneIdQueueGet200ResponseStats.ts';
 import { PhoneIdRedeployGet200Response } from '../models/PhoneIdRedeployGet200Response.ts';
-import { PhoneIdSetProfileImagePost200Response } from '../models/PhoneIdSetProfileImagePost200Response.ts';
+import { PhoneIdSendMessagePostRequest } from '../models/PhoneIdSendMessagePostRequest.ts';
+import { PhoneIdSendMessagePostRequestMessage } from '../models/PhoneIdSendMessagePostRequestMessage.ts';
 import { PhoneIdSetProfileImagePostRequest } from '../models/PhoneIdSetProfileImagePostRequest.ts';
 import { PhoneObj } from '../models/PhoneObj.ts';
 import { PhoneObjWithPid } from '../models/PhoneObjWithPid.ts';
 import { ProductData } from '../models/ProductData.ts';
 import { QueuePhone } from '../models/QueuePhone.ts';
 import { QueuesGet200Response } from '../models/QueuesGet200Response.ts';
-import { SendMessageBody } from '../models/SendMessageBody.ts';
 import { SendMessageResponse } from '../models/SendMessageResponse.ts';
 import { SendMessageResponseData } from '../models/SendMessageResponseData.ts';
 import { Status } from '../models/Status.ts';
@@ -462,7 +462,7 @@ export class ObjectGroupChatOperationsApi {
      * Change profile picture of a group conversation or yourself.  To change profile picture of yourself you need to leave the conversation_id blank.  You need to use square images for better view. We suggest 512x512 images.
      * @param param the request object
      */
-    public phoneIdSetProfileImagePost(param: GroupChatOperationsApiPhoneIdSetProfileImagePostRequest, options?: Configuration): Promise<PhoneIdSetProfileImagePost200Response> {
+    public phoneIdSetProfileImagePost(param: GroupChatOperationsApiPhoneIdSetProfileImagePostRequest, options?: Configuration): Promise<JustSuccess> {
         return this.api.phoneIdSetProfileImagePost(param.phoneId, param.phoneIdSetProfileImagePostRequest,  options).toPromise();
     }
 
@@ -480,10 +480,10 @@ export interface MessageSendingOperationsApiPhoneIdSendMessagePostRequest {
     phoneId: string
     /**
      * - to_number should start with country code without any special characters. - For group conversations you need to pass group.id to to_number. Ex: **\&quot;905301234567-1574073754@g.us\&quot;** - If the message to be sent is just a text message, it can be put directly to ***message*** parameter in the body  - **For media and group message examples please look at \&#39;Request body examples\&#39; section below.** - For Product messages you need to create your products from WhatsApp Business Phone app and find your product id with **_/catalog** endpoints.
-     * @type SendMessageBody
+     * @type PhoneIdSendMessagePostRequest
      * @memberof MessageSendingOperationsApiphoneIdSendMessagePost
      */
-    sendMessageBody: SendMessageBody
+    phoneIdSendMessagePostRequest: PhoneIdSendMessagePostRequest
 }
 
 export class ObjectMessageSendingOperationsApi {
@@ -498,7 +498,7 @@ export class ObjectMessageSendingOperationsApi {
      * @param param the request object
      */
     public phoneIdSendMessagePost(param: MessageSendingOperationsApiPhoneIdSendMessagePostRequest, options?: Configuration): Promise<SendMessageResponse> {
-        return this.api.phoneIdSendMessagePost(param.phoneId, param.sendMessageBody,  options).toPromise();
+        return this.api.phoneIdSendMessagePost(param.phoneId, param.phoneIdSendMessagePostRequest,  options).toPromise();
     }
 
 }

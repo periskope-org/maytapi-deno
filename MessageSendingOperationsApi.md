@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **phoneIdSendMessagePost**
-> SendMessageResponse phoneIdSendMessagePost(sendMessageBody)
+> SendMessageResponse phoneIdSendMessagePost(phoneIdSendMessagePostRequest)
 
 Used for sending message to a chat. A text, image, video, sound and document can be sent.  **This endpoint adds messages to your phone\'s sending queue. If your messages not delivering to phones please check your instance logs, queue endpoint or connection (/screen).**  **Curl example:** (You need to change product_id, phone_id and token[x-maytapi-key] with your product\'s values...) ```bash curl -X POST \\ \'https://api.maytapi.com/api/dc01968f-####-####-####-7cfcf51aa423/12/sendMessage\' \\   -H \'Content-Type: application/json\' \\   -H \'x-maytapi-key: b267697c-####-####-####-2435e812efc1\' \\   -d \'{  \"message\": \"http://placehold.it/180\",   \"text\": \"\",   \"to_number\": \"+905301111111\",   \"type\": \"media\" }\'
 
@@ -25,11 +25,11 @@ const apiInstance = new .MessageSendingOperationsApi(configuration);
 let body:.MessageSendingOperationsApiPhoneIdSendMessagePostRequest = {
   // string | ID of the phone registered to the product, assigned by the database automatically. Can be obtained by calling ***GET listPhones***.
   phoneId: "12",
-  // SendMessageBody | - to_number should start with country code without any special characters. - For group conversations you need to pass group.id to to_number. Ex: **\"905301234567-1574073754@g.us\"** - If the message to be sent is just a text message, it can be put directly to ***message*** parameter in the body  - **For media and group message examples please look at \'Request body examples\' section below.** - For Product messages you need to create your products from WhatsApp Business Phone app and find your product id with **_/catalog** endpoints.
-  sendMessageBody: {
-    toNumber: "905301234567",
-    message: null,
+  // PhoneIdSendMessagePostRequest | - to_number should start with country code without any special characters. - For group conversations you need to pass group.id to to_number. Ex: **\"905301234567-1574073754@g.us\"** - If the message to be sent is just a text message, it can be put directly to ***message*** parameter in the body  - **For media and group message examples please look at \'Request body examples\' section below.** - For Product messages you need to create your products from WhatsApp Business Phone app and find your product id with **_/catalog** endpoints.
+  phoneIdSendMessagePostRequest: {
+    toNumber: "toNumber_example",
     type: "text",
+    message: null,
   },
 };
 
@@ -43,7 +43,7 @@ apiInstance.phoneIdSendMessagePost(body).then((data:any) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **sendMessageBody** | **SendMessageBody**| - to_number should start with country code without any special characters. - For group conversations you need to pass group.id to to_number. Ex: **\&quot;905301234567-1574073754@g.us\&quot;** - If the message to be sent is just a text message, it can be put directly to ***message*** parameter in the body  - **For media and group message examples please look at \&#39;Request body examples\&#39; section below.** - For Product messages you need to create your products from WhatsApp Business Phone app and find your product id with **_/catalog** endpoints. |
+ **phoneIdSendMessagePostRequest** | **PhoneIdSendMessagePostRequest**| - to_number should start with country code without any special characters. - For group conversations you need to pass group.id to to_number. Ex: **\&quot;905301234567-1574073754@g.us\&quot;** - If the message to be sent is just a text message, it can be put directly to ***message*** parameter in the body  - **For media and group message examples please look at \&#39;Request body examples\&#39; section below.** - For Product messages you need to create your products from WhatsApp Business Phone app and find your product id with **_/catalog** endpoints. |
  **phoneId** | [**string**] | ID of the phone registered to the product, assigned by the database automatically. Can be obtained by calling ***GET listPhones***. | defaults to undefined
 
 

@@ -10,66 +10,17 @@
  * Do not edit the class manually.
  */
 
-import { GroupDataConfig } from '../models/GroupDataConfig.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class GroupData {
-    'id'?: string;
-    'name'?: string;
-    'participants'?: Array<string>;
-    'admins'?: Array<string>;
-    'image'?: string;
-    'config'?: GroupDataConfig;
-    'invite'?: string;
+export class PhoneIdSendMessagePostRequestMessage {
 
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
-        {
-            "name": "id",
-            "baseName": "id",
-            "type": "string",
-            "format": ""
-        },
-        {
-            "name": "name",
-            "baseName": "name",
-            "type": "string",
-            "format": ""
-        },
-        {
-            "name": "participants",
-            "baseName": "participants",
-            "type": "Array<string>",
-            "format": ""
-        },
-        {
-            "name": "admins",
-            "baseName": "admins",
-            "type": "Array<string>",
-            "format": ""
-        },
-        {
-            "name": "image",
-            "baseName": "image",
-            "type": "string",
-            "format": ""
-        },
-        {
-            "name": "config",
-            "baseName": "config",
-            "type": "GroupDataConfig",
-            "format": ""
-        },
-        {
-            "name": "invite",
-            "baseName": "invite",
-            "type": "string",
-            "format": ""
-        }    ];
+    ];
 
     static getAttributeTypeMap() {
-        return GroupData.attributeTypeMap;
+        return PhoneIdSendMessagePostRequestMessage.attributeTypeMap;
     }
 
     public constructor() {

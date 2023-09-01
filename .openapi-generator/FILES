@@ -65,15 +65,14 @@ models/PhoneIdPurgeQueueGet200Response.ts
 models/PhoneIdQueueGet200Response.ts
 models/PhoneIdQueueGet200ResponseStats.ts
 models/PhoneIdRedeployGet200Response.ts
-models/PhoneIdSetProfileImagePost200Response.ts
+models/PhoneIdSendMessagePostRequest.ts
+models/PhoneIdSendMessagePostRequestMessage.ts
 models/PhoneIdSetProfileImagePostRequest.ts
 models/PhoneObj.ts
 models/PhoneObjWithPid.ts
 models/ProductData.ts
 models/QueuePhone.ts
 models/QueuesGet200Response.ts
-models/SendMessageBody.ts
-models/SendMessageBodyMessage.ts
 models/SendMessageResponse.ts
 models/SendMessageResponseData.ts
 models/Status.ts
