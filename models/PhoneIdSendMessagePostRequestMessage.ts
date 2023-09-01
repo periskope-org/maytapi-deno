@@ -12,7 +12,7 @@
 
 import { HttpFile } from '../http/http.ts';
 
-export class PhoneIdSendMessagePostRequestMessage {
+export class PhoneIdSendMessagePostRequestMessage<T> {
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -23,7 +23,11 @@ export class PhoneIdSendMessagePostRequestMessage {
         return PhoneIdSendMessagePostRequestMessage.attributeTypeMap;
     }
 
-    public constructor() {
+
+    public data: T;
+
+    public constructor(data: T) {
+        this.data = data;
     }
 }
 

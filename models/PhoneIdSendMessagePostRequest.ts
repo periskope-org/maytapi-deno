@@ -16,7 +16,7 @@ import { HttpFile } from '../http/http.ts';
 export class PhoneIdSendMessagePostRequest {
     'toNumber'?: string;
     'type'?: PhoneIdSendMessagePostRequestTypeEnum;
-    'message'?: PhoneIdSendMessagePostRequestMessage;
+    'message'?: PhoneIdSendMessagePostRequestMessage<any>;
 
     static readonly discriminator: string | undefined = undefined;
 
