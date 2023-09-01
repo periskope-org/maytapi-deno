@@ -10,46 +10,43 @@
  * Do not edit the class manually.
  */
 
-import { HttpFile } from "../http/http.ts";
+import { HttpFile } from '../http/http.ts';
 
 export class PhoneIdSendMessagePostRequest {
-  "toNumber"?: string;
-  "type"?: PhoneIdSendMessagePostRequestTypeEnum;
-  "message"?: any;
+    'toNumber'?: string;
+    'message'?: string;
+    'type'?: PhoneIdSendMessagePostRequestTypeEnum;
 
-  static readonly discriminator: string | undefined = undefined;
+    static readonly discriminator: string | undefined = undefined;
 
-  static readonly attributeTypeMap: Array<{
-    name: string;
-    baseName: string;
-    type: string;
-    format: string;
-  }> = [
-    {
-      name: "toNumber",
-      baseName: "to_number",
-      type: "string",
-      format: "",
-    },
-    {
-      name: "type",
-      baseName: "type",
-      type: "PhoneIdSendMessagePostRequestTypeEnum",
-      format: "",
-    },
-    {
-      name: "message",
-      baseName: "message",
-      type: "any",
-      format: "",
-    },
-  ];
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+        {
+            "name": "toNumber",
+            "baseName": "to_number",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "message",
+            "baseName": "message",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "type",
+            "baseName": "type",
+            "type": "PhoneIdSendMessagePostRequestTypeEnum",
+            "format": ""
+        }    ];
 
-  static getAttributeTypeMap() {
-    return PhoneIdSendMessagePostRequest.attributeTypeMap;
-  }
+    static getAttributeTypeMap() {
+        return PhoneIdSendMessagePostRequest.attributeTypeMap;
+    }
 
-  public constructor() {}
+    public constructor() {
+    }
 }
 
-export type PhoneIdSendMessagePostRequestTypeEnum = "text" | "media" | "vcard";
+
+export type PhoneIdSendMessagePostRequestTypeEnum = "text" | "media" ;
+

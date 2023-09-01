@@ -739,13 +739,18 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "to_number": { "type": "string" },
-                  "type": {
+                  "to_number": {
                     "type": "string",
-                    "enum": ["text", "media", "vcard"]
+                    "example": "905301234567"
                   },
                   "message": {
-                    "oneOf": [{ "type": "string" }, { "type": "object" }]
+                    "type": "string",
+                    "example": "Message Text"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": ["text", "media"],
+                    "example": "text"
                   }
                 }
               },

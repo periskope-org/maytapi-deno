@@ -104,7 +104,7 @@ import { PhoneIdPurgeQueueGet200Response } from '../models/PhoneIdPurgeQueueGet2
 import { PhoneIdQueueGet200Response } from '../models/PhoneIdQueueGet200Response.ts';
 import { PhoneIdQueueGet200ResponseStats } from '../models/PhoneIdQueueGet200ResponseStats.ts';
 import { PhoneIdRedeployGet200Response } from '../models/PhoneIdRedeployGet200Response.ts';
-import { PhoneIdSendMessagePostRequest , PhoneIdSendMessagePostRequestTypeEnum    } from '../models/PhoneIdSendMessagePostRequest.ts';
+import { PhoneIdSendMessagePostRequest  , PhoneIdSendMessagePostRequestTypeEnum   } from '../models/PhoneIdSendMessagePostRequest.ts';
 import { PhoneIdSetProfileImagePostRequest } from '../models/PhoneIdSetProfileImagePostRequest.ts';
 import { PhoneObj    } from '../models/PhoneObj.ts';
 import { PhoneObjWithPid } from '../models/PhoneObjWithPid.ts';

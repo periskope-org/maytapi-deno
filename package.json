@@ -3,9 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^2.7.0"
+    "@openapitools/openapi-generator-cli": "^2.7.0",
+    "@types/node": "^20.5.7"
   },
   "scripts": {
-    "generate": "npx @openapitools/openapi-generator-cli generate -i ./maytapi.json -g typescript --additional-properties=platform=deno -o ./"
+    "generate": "npx @openapitools/openapi-generator-cli generate -i ./maytapi.json -g typescript --additional-properties=platform=deno -o ./",
+    "test":"ts-node test-scripts/main.ts"
+  },
+  "dependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
   }
 }
