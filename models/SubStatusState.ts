@@ -10,80 +10,30 @@
  * Do not edit the class manually.
  */
 
-import { SubStatusState } from '../models/SubStatusState.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class SubStatus {
-    'loggedIn'?: boolean;
-    'isQr'?: boolean;
-    'loading'?: boolean;
-    'connRetry'?: boolean;
-    'message'?: string;
-    'state'?: SubStatusState;
-    'version'?: string;
-    'number'?: string;
-    'multidevice'?: boolean;
+export class SubStatusState {
+    'state'?: string;
+    'canSend'?: boolean;
 
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "loggedIn",
-            "baseName": "loggedIn",
-            "type": "boolean",
-            "format": ""
-        },
-        {
-            "name": "isQr",
-            "baseName": "isQr",
-            "type": "boolean",
-            "format": ""
-        },
-        {
-            "name": "loading",
-            "baseName": "loading",
-            "type": "boolean",
-            "format": ""
-        },
-        {
-            "name": "connRetry",
-            "baseName": "connRetry",
-            "type": "boolean",
-            "format": ""
-        },
-        {
-            "name": "message",
-            "baseName": "message",
-            "type": "string",
-            "format": ""
-        },
-        {
             "name": "state",
             "baseName": "state",
-            "type": "SubStatusState",
-            "format": ""
-        },
-        {
-            "name": "version",
-            "baseName": "version",
             "type": "string",
             "format": ""
         },
         {
-            "name": "number",
-            "baseName": "number",
-            "type": "string",
-            "format": ""
-        },
-        {
-            "name": "multidevice",
-            "baseName": "multidevice",
+            "name": "canSend",
+            "baseName": "canSend",
             "type": "boolean",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return SubStatus.attributeTypeMap;
+        return SubStatusState.attributeTypeMap;
     }
 
     public constructor() {

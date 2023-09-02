@@ -55,6 +55,7 @@ import { SendMessageResponseData } from '../models/SendMessageResponseData.ts';
 import { Status } from '../models/Status.ts';
 import { StatusEnum } from '../models/StatusEnum.ts';
 import { SubStatus } from '../models/SubStatus.ts';
+import { SubStatusState } from '../models/SubStatusState.ts';
 import { TextMessage } from '../models/TextMessage.ts';
 import { VcardData } from '../models/VcardData.ts';
 import { VcardMessage } from '../models/VcardMessage.ts';

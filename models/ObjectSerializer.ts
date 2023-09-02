@@ -52,6 +52,7 @@ export * from '../models/SendMessageResponseData.ts';
 export * from '../models/Status.ts';
 export * from '../models/StatusEnum.ts';
 export * from '../models/SubStatus.ts';
+export * from '../models/SubStatusState.ts';
 export * from '../models/TextMessage.ts';
 export * from '../models/VcardData.ts';
 export * from '../models/VcardMessage.ts';
@@ -116,6 +117,7 @@ import { SendMessageResponseData } from '../models/SendMessageResponseData.ts';
 import { Status } from '../models/Status.ts';
 import { StatusEnum } from '../models/StatusEnum.ts';
 import { SubStatus } from '../models/SubStatus.ts';
+import { SubStatusState } from '../models/SubStatusState.ts';
 import { TextMessage } from '../models/TextMessage.ts';
 import { VcardData } from '../models/VcardData.ts';
 import { VcardMessage } from '../models/VcardMessage.ts';
@@ -218,6 +220,7 @@ let typeMap: {[index: string]: any} = {
     "SendMessageResponseData": SendMessageResponseData,
     "Status": Status,
     "SubStatus": SubStatus,
+    "SubStatusState": SubStatusState,
     "TextMessage": TextMessage,
     "VcardData": VcardData,
     "VcardMessage": VcardMessage,

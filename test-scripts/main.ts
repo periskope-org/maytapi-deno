@@ -1,6 +1,7 @@
 import {
   MessageSendingOperationsApi,
   ServerConfiguration,
+  SessionInformationGettersApi,
   createConfiguration,
 } from "../index.ts";
 
@@ -16,26 +17,31 @@ export const maytapi_config = createConfiguration({
   },
 });
 
-const api = new MessageSendingOperationsApi(maytapi_config);
+const messageAPI = new MessageSendingOperationsApi(maytapi_config);
+const statusAPI = new SessionInformationGettersApi(maytapi_config);
 
 const phoneId = "30795";
 const number = "919537851844";
 
 async function main() {
-  const res = await api.phoneIdSendMessagePost(phoneId, {
-    toNumber: "919537851844",
-    type: "vcard",
-    message: {
-      displayName: "Periskope Coordinator",
-      vcard:
-        "BEGIN:VCARD\nVERSION:3.0\nFN;CHARSET=UTF-8:Periskope Coordinator\nN;CHARSET=UTF-8:;Periskope;Coordinator;;\nTEL;TYPE=CELL:+919004389372\nREV:2020-01-23T11:09:14.782Z\nEND:VCARD",
-    },
-    // type: 'text',
-    // toNumber: number,
-    // message: 'Hello world 1',
-  });
+  // const res = await api.phoneIdSendMessagePost(phoneId, {
+  //   toNumber: "919537851844",
+  //   type: "vcard",
+  //   message: {
+  //     displayName: "Periskope Coordinator",
+  //     vcard:
+  //       "BEGIN:VCARD\nVERSION:3.0\nFN;CHARSET=UTF-8:Periskope Coordinator\nN;CHARSET=UTF-8:;Periskope;Coordinator;;\nTEL;TYPE=CELL:+919004389372\nREV:2020-01-23T11:09:14.782Z\nEND:VCARD",
+  //   },
+  //   // type: 'text',
+  //   // toNumber: number,
+  //   // message: 'Hello world 1',
+  // });
 
-  console.log(res.success);
+  // console.log(res.success);
+
+  const res = await statusAPI.phoneIdStatusGet(phoneId);
+
+  console.log(res);
 }
 
 main();

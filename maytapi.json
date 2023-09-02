@@ -1785,6 +1785,26 @@
           "message": {
             "type": "string",
             "example": "Special messages about the status are shown here"
+          },
+          "state": {
+            "type": "object",
+            "properties": {
+              "state": {
+                "type": "string"
+              },
+              "canSend": {
+                "type": "boolean"
+              }
+            }
+          },
+          "version": {
+            "type": "string"
+          },
+          "number": {
+            "type": "string"
+          },
+          "multidevice": {
+            "type": "boolean"
           }
         }
       },
