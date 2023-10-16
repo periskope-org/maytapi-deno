@@ -30,6 +30,13 @@ let body:.MessageSendingOperationsApiPhoneIdSendMessagePostRequest = {
     toNumber: "905301234567",
     message: "Message Text",
     type: "text",
+    text: "Message Caption (optional)",
+    filename: "demo.txt",
+    skipFilter: true,
+    forwardCaption: true,
+    replyTo: "50d8b950-a67f-11eb-91cc-d97af631df95",
+    latitude: 41.0082,
+    longitude: 28.9784,
   },
 };
 

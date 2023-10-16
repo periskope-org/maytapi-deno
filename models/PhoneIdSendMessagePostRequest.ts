@@ -16,6 +16,13 @@ export class PhoneIdSendMessagePostRequest {
     'toNumber'?: string;
     'message'?: any;
     'type'?: PhoneIdSendMessagePostRequestTypeEnum;
+    'text'?: string;
+    'filename'?: string;
+    'skipFilter'?: boolean;
+    'forwardCaption'?: boolean;
+    'replyTo'?: string;
+    'latitude'?: number;
+    'longitude'?: number;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -37,6 +44,48 @@ export class PhoneIdSendMessagePostRequest {
             "baseName": "type",
             "type": "PhoneIdSendMessagePostRequestTypeEnum",
             "format": ""
+        },
+        {
+            "name": "text",
+            "baseName": "text",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "filename",
+            "baseName": "filename",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "skipFilter",
+            "baseName": "skip_filter",
+            "type": "boolean",
+            "format": ""
+        },
+        {
+            "name": "forwardCaption",
+            "baseName": "forward_caption",
+            "type": "boolean",
+            "format": ""
+        },
+        {
+            "name": "replyTo",
+            "baseName": "reply_to",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "latitude",
+            "baseName": "latitude",
+            "type": "number",
+            "format": ""
+        },
+        {
+            "name": "longitude",
+            "baseName": "longitude",
+            "type": "number",
+            "format": ""
         }    ];
 
     static getAttributeTypeMap() {
@@ -48,5 +97,6 @@ export class PhoneIdSendMessagePostRequest {
 }
 
 
-export type PhoneIdSendMessagePostRequestTypeEnum = "text" | "media" | "vcard" ;
+export type PhoneIdSendMessagePostRequestTypeEnum = "text" | "media" | "vcard" |
+"contact" | "forward" | "delete" | "reaction" | "link" | "edit" | "location" ;
 

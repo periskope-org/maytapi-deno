@@ -749,8 +749,36 @@
                   },
                   "type": {
                     "type": "string",
-                    "enum": ["text", "media"],
+                    "enum": ["text", "media","contact", "forward", "delete", "reaction", "link", "edit", "location"],
                     "example": "text"
+                  },
+                  "text": {
+                    "type": "string",
+                    "example": "Message Caption (optional)"
+                  },
+                  "filename": {
+                    "type": "string",
+                    "example": "demo.txt"
+                  },
+                  "skip_filter": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "forward_caption":{
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "reply_to": {
+                    "type": "string",
+                    "example": "50d8b950-a67f-11eb-91cc-d97af631df95"
+                  },
+                  "latitude":{
+                    "type": "number",
+                    "example": 41.0082
+                  },
+                  "longitude":{
+                    "type": "number",
+                    "example": 28.9784
                   }
                 }
               },
